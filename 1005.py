@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 class Student(object):
     """
     A class for describe student's test code and test grade
@@ -30,26 +31,26 @@ def get_input(number):
     get the input information,return a list of student instance
     """
     res = []
-    for i in range(number):
-        students = [int(i) for i in raw_input.split(' ')]
+    for i in sys.stdin:
+        students = [int(j) for j in i.split(' ')]
         res.append(Student(*students))
     return res
-# number, L, H=[int(i) for i in raw_input().split(' ')]
-number, L, H = [14, 60, 80]
+number, L, H=[int(i) for i in raw_input().split(' ')]
+# number, L, H = [14, 60, 80]
 
 
-def get_input(number):
-    s = ['10000001 64 90', '10000002 90 60', '10000011 85 80',
-         '10000003 85 80', '10000004 80 85', '10000005 82 77',
-         '10000006 83 76', '10000007 90 78', '10000008 75 79',
-         '10000009 59 90', '10000010 88 45', '10000012 80 100',
-         '10000013 90 99', '10000014 66 60']
+# def get_input(number)# :
+    # s = ['10000001 64 90', '10000002 90 60', '10000011 85 80',
+    #      '10000003 85 80', '10000004 80 85', '10000005 82 77',
+    #      '10000006 83 76', '10000007 90 78', '10000008 75 79',
+    #      '10000009 59 90', '10000010 88 45', '10000012 80 100',
+    #      '10000013 90 99', '10000014 66 60']
 
-    res = []
-    for i in s:
-        student = [int(j) for j in i.split(' ')]
-        res.append(Student(*student))
-    return res
+    # res = []
+    # for i in s:
+    #     student = [int(j) for j in i.split(' ')]
+    #     res.append(Student(*student))
+    # return res
 
 
 def sort_rule(students):
@@ -84,9 +85,10 @@ def sort_rule(students):
         else:
             return student_a.get_sum() > student_b.get_sum()
 
-    for i in range(students):
-        for j in range(i):
-            pass
+    for i in range(len(students)-1):
+        for j in range(len(students)-1):
+            if not rule_between_two_students(students[j], students[j + 1]):
+                students[j], students[j + 1] = students[j + 1], students[j]
     return students
 
 
