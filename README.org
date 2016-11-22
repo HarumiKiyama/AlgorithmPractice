@@ -1,4 +1,3 @@
-* PAT Practice
-This repository is made for archieve my PAT practice files which were written in C++
-* [0/1]Complete Practices Count
-** TODO 001
+* Algorithm Practice
+This repository is made for archieve my Algorithm practice files
+** Algorithm 4th edition
