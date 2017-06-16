@@ -1,3 +1,6 @@
 * Algorithm Practice
-This repository is made for archieve my Algorithm practice files
-** Algorithm 4th edition
+A collection of online OJ solutions and some sort of things
+- Algorithm 4th edition :: Java
+- CodeWars :: Haskell
+- CodeWars :: Python3
+- CodeWars :: Golang
