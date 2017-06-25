@@ -1,4 +1,4 @@
-module Problem9 where
+module Problem9 (pack) where
 
 
 pack :: (Eq a) => [a] -> [[a]]
