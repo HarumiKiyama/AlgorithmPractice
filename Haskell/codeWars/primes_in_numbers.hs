@@ -3,6 +3,7 @@ import           Control.Arrow ((&&&))
 import           Data.List     (group, (\\))
 
 -- clever solution
+-- can not understand now
 prime_factors :: Integer -> String
 prime_factors = printFac . map (head &&& length) . group . factor
 
