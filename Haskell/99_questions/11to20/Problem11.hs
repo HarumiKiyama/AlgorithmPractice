@@ -1,4 +1,7 @@
-module Problem11 where
+module Problem11
+  ( Entry(..)
+  , encodeModified
+  ) where
 import           Data.List (group)
 -- Modified run-length encoding.
 
