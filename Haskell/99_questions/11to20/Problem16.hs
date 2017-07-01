@@ -3,5 +3,5 @@ import Data.List.Split(chunksOf)
 
 -- Drop every N'th element from a list
 
-dropEvery :: String -> Int -> String
+dropEvery :: [a] -> Int -> [a]
 dropEvery s n = concatMap init $ chunksOf n s
