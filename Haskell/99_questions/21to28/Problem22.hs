@@ -5,5 +5,5 @@ module Problem22 where
 range :: Int -> Int -> [Int]
 range f l
   | f == l = [l]
-  | f > l = range l f
+  | f > l = reverse $ range l f
   | otherwise = f : range (f + 1) l
