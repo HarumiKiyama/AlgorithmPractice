@@ -1,7 +1,7 @@
 module Problem25 where
-import Problem23
+import           Problem24
+import           System.Random
 
-  -- TODO: fix repeat problems
 -- Generate a random permutation of the elements of a list.
-rndPermu :: [a] -> IO [a]
-rndPermu xs = Problem23.rndSelect xs $ length xs
+rndPermu :: [a] -> StdGen->[a]
+rndPermu xs gen = map (\x -> xs !! x) $ rndSelect (length xs) (length xs) gen

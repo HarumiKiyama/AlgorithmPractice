@@ -1,7 +1,7 @@
 module Problem24 where
-import           Problem23
+import           Data.List
+import           System.Random
 -- Draw N different random numbers from the set 1..M.
 
-  -- TODO: fix repeat problems
-rndSelect :: Int -> Int -> IO [Int]
-rndSelect n m = Problem23.rndSelect [1 .. m] n
+rndSelect :: Int -> Int -> StdGen -> [Int]
+rndSelect n m = take n . nub . randomRs (1, m)
