@@ -1,6 +1,5 @@
 * Algorithm Practice
 A collection of online OJ solutions and some sort of things
-- Java :: =Algorithm 4th edition=
 - Haskell :: =CodeWars= =99problems=
 - Python3 :: =CodeWars=
 - Golang :: =CodeWars=
