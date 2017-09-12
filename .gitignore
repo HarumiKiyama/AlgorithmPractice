@@ -3,3 +3,4 @@
 *.o
 *.ibc
 .stack-work/
+__pycache__/
