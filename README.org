@@ -1,5 +1,6 @@
 * Algorithm Practice
 A collection of online OJ solutions and some sort of things
-- Haskell :: =CodeWars= =99problems=
-- Python3 :: =CodeWars=
-- Golang :: =CodeWars=
+- Haskell :: =CodeWars= =99problems= =exercism=
+- Python3 :: =CodeWars= =exercism=
+- elisp :: =exercism=
+- Golang :: =CodeWars= =exercism=
