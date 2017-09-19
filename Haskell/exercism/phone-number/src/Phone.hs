@@ -3,21 +3,15 @@ import           Data.Char (isDigit)
 
 
 number :: String -> Maybe String
-number [] = Nothing
-number xs =
-  case length n == 11 && head n == '1' of
-    True -> getPhoneNumber $ tail n
-    False
-      | length n == 10 -> getPhoneNumber n
-      | otherwise -> Nothing
+number xs
+  | length number == 11 && head number == '1' = getPhoneNumber $ tail number
+  | length number == 10 = getPhoneNumber number
+  | otherwise = Nothing
   where
-    n = filter isDigit xs
-    check :: (Char, Int) -> Maybe Char
-    check (c, n) =
-      case n `elem` [0, 3] of
-        True
-          | c `elem` (show [2 .. 9]) -> Just c
-          | otherwise -> Nothing
-        otherwise -> Just c
+    number = filter isDigit xs
+    two2nine = ['2' .. '9']
     getPhoneNumber :: String -> Maybe String
-    getPhoneNumber n = check `mapM` zip n [0 ..]
+    getPhoneNumber n =
+      if head n `elem` two2nine && n !! 3 `elem` two2nine
+        then Just n
+        else Nothing
