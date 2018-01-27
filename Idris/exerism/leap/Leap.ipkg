@@ -1,5 +1,0 @@
-package leap
-
-sourcedir = src
-modules = Leap, Test.Leap
-tests = Test.Leap.runTests

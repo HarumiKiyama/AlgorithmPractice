@@ -1,5 +1,0 @@
-package helloworld
-
-sourcedir = src
-modules = HelloWorld, Test.HelloWorld
-tests = Test.HelloWorld.runTests
