@@ -1,0 +1,19 @@
+* Description
+This time no story, no theory. The examples below show you how to write function =accum=:
+Examples:
+#+BEGIN_SRC rust
+accum(&"abcd")    // "A-Bb-Ccc-Dddd"
+accum(&"RqaEzty") // "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+accum(&"cwAt")    // "C-Ww-Aaa-Tttt"
+#+END_SRC
+
+The parameter of accum is a string which includes only letters from =a..z= and =A..Z=.
+
+#+BEGIN_SRC rust
+  fn accum(s:&str)->String {
+      s.chars().enumerate()
+      .map(|(i,c)| c.to_string().to_uppercase() +
+            &(0..i).map(|_| c.to_string().to_lowercase()).collect::<String>())
+      .collect::<Vec<_>>().join("-")
+  }
+#+END_SRC
