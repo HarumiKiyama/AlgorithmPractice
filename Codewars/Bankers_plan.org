@@ -30,15 +30,14 @@ For the last case you can find below the amounts of his account at the beginning
 f11 = -5 so he has no way to withdraw something for his living in year 12.
 
 #+BEGIN_SRC rust
-fn fortune(f0:i32,p:f64,c0:i32,n:i32,i:f64)->bool{
-    let c1 = (c0 as f64 *(1.0 + i / 100.0)) as i32;
-    let f1 = (f0 as f64 *(1.0+p/100.0)) as i32;
-    if n == 0 {
-        true
-    } else if  c1 > f1 {
-        false
-    } else {
-        fortune(f1-c1, p, c1, n-1,i)
-    }
-}
+  fn fortune(deposit: i32, interest: f64, wage: i32, years: i32, inflation: f64) -> bool {
+      let (interest, inflation) = (interest / 100.0 + 1.0, inflation / 100.0 + 1.0);
+      (0..years).fold(
+          (deposit as f64, wage as f64),
+          |(deposit, wage), _| (
+              (deposit * interest - wage).trunc(),
+              (wage * inflation).trunc()
+          )
+      ).0 >= 0.0
+  }
 #+END_SRC
