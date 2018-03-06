@@ -1,0 +1,37 @@
+Your job is to write a function which increments a string, to create a new string. If the string already ends with a number, the number should be incremented by 1. If the string does not end with a number the number 1 should be appended to the new string.
+
+#+BEGIN_SRC python :results output
+  import unittest
+
+
+  def increment_string(s):
+      if s == "":
+          return "1"
+      for i, j in enumerate(s):
+          if j.isdigit():
+              char_part = s[:i]
+              digit_part = s[i:]
+              digit_len = len(digit_part)
+              num = int(digit_part) + 1
+              digit_part = "{0:0{fill}}".format(
+                  num, fill=digit_len) if len(
+                      str(num)) < len(digit_part) else str(num)
+              return char_part + digit_part
+      return s + "1"
+
+
+  class TestIncrementString(unittest.TestCase):
+      def test_cases(self):
+          self.assertEqual(increment_string("foo"), "foo1")
+          self.assertEqual(increment_string("foobar001"), "foobar002")
+          self.assertEqual(increment_string("foobar1"), "foobar2")
+          self.assertEqual(increment_string("foobar00"), "foobar01")
+          self.assertEqual(increment_string("foobar99"), "foobar100")
+          self.assertEqual(increment_string("foobar099"), "foobar100")
+          self.assertEqual(increment_string(""), "1")
+
+
+  unittest.main()
+#+END_SRC
+
+#+RESULTS:
