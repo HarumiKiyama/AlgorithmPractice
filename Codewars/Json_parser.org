@@ -1,0 +1,21 @@
+JSON is a simple data-interchange format that is based on a simplified version of JavaScript's object notation. The official website has a great description of the language.
+
+For the purposes of this kata we will use a simplified version of JSON. Specifically, you may ignore numbers with exponents and strings with Unicode and escape sequences. The updated parts of the specification are as follows
+
+#+BEGIN_SRC haskell
+  module Main where
+
+  data Value
+    = String String
+    | Number Double
+    | Object [(Value, Value)] -- an association list -- only a `String` is valid as the index `Value`
+    | Array [Value] -- not limited to identical primitive datatypes
+    | Boolean Bool -- either `True` or `False`
+    | Null
+
+  parse :: String->Maybe Value
+  parse n = Nothing
+
+  main :: IO()
+  main = putStr "Hello"
+#+END_SRC
