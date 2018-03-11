@@ -1,0 +1,10 @@
+In this little assignment you are given a string of space separated numbers, and have to return the highest and lowest number.
+#+BEGIN_SRC rust
+  pub fn high_and_low(numbers: &str) -> String {
+      let a = numbers
+          .split_whitespace()
+          .map(|x| x.parse::<i32>().unwrap())
+          .collect::<Vec<i32>>();
+      format!("{} {}", a.iter().max().unwrap(), a.iter().min().unwrap())
+  }
+#+END_SRC
