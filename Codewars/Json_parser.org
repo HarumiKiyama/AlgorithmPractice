@@ -4,6 +4,7 @@ For the purposes of this kata we will use a simplified version of JSON. Specific
 
 #+BEGIN_SRC haskell
   module Main where
+  import Test.Hspec
 
   data Value
     = String String
@@ -12,10 +13,44 @@ For the purposes of this kata we will use a simplified version of JSON. Specific
     | Array [Value] -- not limited to identical primitive datatypes
     | Boolean Bool -- either `True` or `False`
     | Null
+    deriving (Show, Eq)
 
-  parse :: String->Maybe Value
-  parse n = Nothing
+  tokenize :: String -> [String]
+  tokenize = foldr tokenize' []
+    where
+      specialToken = "{[:,]}\""
+      tokenize' :: Char -> [String] -> [String]
+      tokenize' x res =
+        if x `elem` specialToken || head (head res) `elem` specialToken
+          then [x] : res
+          else (x : head res) : tail res
 
-  main :: IO()
-  main = putStr "Hello"
+  -- parse :: String -> Maybe Value
+  -- parse  =  undefined
+
+  -- valueParse :: String -> Value
+  -- valueParse x =
+  --   case x of
+  --     "null" -> Null
+  --     "false" -> Boolean False
+  --     "true" -> Boolean True
+  --     _ -> Number (read x :: Double)
+
+  -- listParse :: String -> [Value]
+  -- listParse = undefined
+
+  -- objectParse :: String -> [(Value, Value)]
+  -- objectParse = undefined
+
+  main :: IO ()
+  main = do
+    hspec $ do
+      describe "JSON.Parser" $ do
+        it "basic fixed tests" $
+          -- parse "123" `shouldBe` Just (Number 123)
+          -- parse "{\"a\":[1,2]}" `shouldBe` Just (Object [ (String "a", Array [ Number 1, Number 2 ] ) ])
+         do
+          tokenize "123" `shouldBe` ["123"]
+          tokenize "{\"a\":[1,2]}" `shouldBe`
+            ["{", "\"", "a", "\"", ":", "[", "1", ",", "2", "]", "}"]
 #+END_SRC
