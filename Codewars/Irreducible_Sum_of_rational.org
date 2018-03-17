@@ -1,0 +1,24 @@
+You will have a list of rationals in the form
+
+m = [ [numer_1, denom_1] , ... , [numer_n, denom_n] ] or m = [ (numer_1, denom_1) , ... , (numer_n, denom_n) ]
+
+where all numbers are positive integers. You have to produce the sum N/D of these rationals in an irreducible form ie N and D have only 1 for divisor.
+
+
+#+BEGIN_SRC rust
+  pub fn sum_fracts(l: Vec<(i64, i64)>) -> Option<(i64, i64)> {
+      if l.is_empty() {
+          return None;
+      }
+      let n = l.iter().fold(1, |res, &(_, y)| res * y);
+      let rv = l.iter().fold(0, |res, &(x, y)| res + x * n / y);
+      let m = gcd(rv, n);
+      Some((rv / m, n / m))
+  }
+  fn gcd(x: i64, y: i64) -> i64 {
+      if y == 0 {
+          return x;
+      }
+      gcd(y, x % y)
+  }
+#+END_SRC
