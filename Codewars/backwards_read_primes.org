@@ -1,0 +1,41 @@
+* Description
+Backwards Read Primes are primes that when read backwards in base 10 (from right to left) are a different prime. (This rules out primes which are palindromes.)
+
+Examples:
+13 17 31 37 71 73 are Backwards Read Primes
+
+13 is such because it's prime and read from right to left writes 31 which is prime too. Same for the others.
+* Task
+
+Find all Backwards Read Primes between two positive given numbers (both inclusive), the second one being greater than the first one. The resulting array or the resulting string will be ordered following the natural order of the prime numbers.
+
+#+BEGIN_SRC rust
+  fn backwards_prime(start: u64, stop: u64) -> Vec<u64> {
+      (start..stop + 1)
+          .filter(|&x| x > 10 && x != backward(x) && is_prime(x) && is_prime(backward(x)))
+          .collect()
+  }
+  fn backward(x: u64) -> u64 {
+      x.to_string()
+          .chars()
+          .rev()
+          .fold(0, |res, s| s.to_digit(10).unwrap() as u64 + res * 10)
+  }
+
+  fn is_prime(x: u64) -> bool {
+      if x <= 1 {
+          return false;
+      } else if x <= 3 {
+          return true;
+      } else if x % 2 == 0 || x % 3 == 0 {
+          return false;
+      } else {
+          for i in 4..(x as f64).sqrt() as u64 + 1 {
+              if x % i == 0 {
+                  return false;
+              }
+          }
+          return true;
+      }
+  }
+#+END_SRC
