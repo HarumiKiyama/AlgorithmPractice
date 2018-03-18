@@ -1,0 +1,33 @@
+In this kata you have to create all permutations of an input string and remove duplicates, if present. This means, you have to shuffle all letters from the input in all possible orders.
+#+BEGIN_SRC python :results output
+  import unittest
+
+
+  def permutations(string):
+      return permute(list(string))
+
+
+  def permute(s_list):
+      if len(s_list) <= 1:
+          return s_list
+      res = []
+      for i, j in enumerate(s_list):
+          temp_list = permute(s_list[:i] + s_list[i + 1:])
+          for k in temp_list:
+              res.append(k + j)
+      return set(list(res))
+
+
+  class TestCase(unittest.TestCase):
+      def test_cases(self):
+          self.assertEqual(sorted(permutations('a')), ['a'])
+          self.assertEqual(sorted(permutations('ab')), ['ab', 'ba'])
+          self.assertEqual(
+              sorted(permutations('aabb')),
+              ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa'])
+
+
+  unittest.main()
+#+END_SRC
+
+#+RESULTS:
