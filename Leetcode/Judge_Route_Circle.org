@@ -1,0 +1,36 @@
+* Description
+ Initially, there is a Robot at position (0, 0). Given a sequence of its moves, judge if this robot makes a circle, which means it moves back to the original place.
+
+The move sequence is represented by a string. And each move is represent by a character. The valid robot moves are R (Right), L (Left), U (Up) and D (down). The output should be true or false representing whether the robot makes a circle.
+
+* Solutions
+#+BEGIN_SRC C++
+  #include <iostream>
+  using namespace std;
+
+  class Solution {
+  public:
+    bool judgeCircle(string moves) {
+      unsigned u = 0, d = 0, l = 0, r = 0;
+      for (char i:moves) {
+        if (i == 'U')
+          u++;
+        if (i == 'D')
+          d++;
+        if (i == 'R')
+          r++;
+        if (i == 'L')
+          l++;
+      }
+      return u - d ==0 && l - r == 0;
+    }
+  };
+
+  int main() {
+    cout << Solution().judgeCircle("UD");
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+: 1
