@@ -1,0 +1,49 @@
+* Description
+International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: "a" maps to ".-", "b" maps to "-...", "c" maps to "-.-.", and so on.
+
+For convenience, the full table for the 26 letters of the English alphabet is given below:
+
+[".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+
+Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, "cab" can be written as "-.-.-....-", (which is the concatenation "-.-." + "-..." + ".-"). We'll call such a concatenation, the transformation of a word.
+
+Return the number of different transformations among all words we have.
+* Solutions
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <map>
+  #include <set>
+  #include <vector>
+  using namespace std;
+
+  class Solution {
+  private:
+    const string MORSE_LIST[26] = {
+        ".-",   "-...", "-.-.", "-..",  ".",   "..-.", "--.",  "....", "..",
+        ".---", "-.-",  ".-..", "--",   "-.",  "---",  ".--.", "--.-", ".-.",
+        "...",  "-",    "..-",  "...-", ".--", "-..-", "-.--", "--.."};
+
+  public:
+    int uniqueMorseRepresentations(vector<string> &words) {
+      set<string> res;
+      for (string word : words) {
+        string temp;
+        for (char w : word) {
+          temp += MORSE_LIST[w - 97];
+        }
+        res.insert(temp);
+      }
+      return res.size();
+    }
+  };
+
+  int main(int argc, char *argv[]) {
+    Solution solution = Solution();
+    vector<string> question = {"gin", "zen", "gig", "msg"};
+    cout << solution.uniqueMorseRepresentations(question) << "\n";
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+: 2
