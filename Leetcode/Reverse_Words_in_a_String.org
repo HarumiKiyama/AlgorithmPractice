@@ -1,0 +1,42 @@
+* Description
+Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+Example 1:
+
+Input: "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+
+Note: In the string, each word is separated by single space and there will not be any extra space in the string.
+* Solution
+#+BEGIN_SRC cpp
+  #include <algorithm>
+  #include <iostream>
+  #include <sstream>
+  #include <string>
+  using namespace std;
+  class Solution {
+  public:
+    string reverseWords(string s) {
+      string temp;
+      istringstream iss(s);
+      ostringstream oss;
+      while (iss>>temp) {
+        reverse(temp.begin(), temp.end());
+        oss << temp;
+        oss<< " ";
+      }
+      string rv=oss.str();
+      rv.pop_back();
+      return rv;
+    }
+  };
+  int main(int argc, char *argv[]) {
+    string s = "2131 4321 543sad";
+    Solution solution = Solution();
+    cout << solution.reverseWords(s);
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+: 1312 1234 das345
