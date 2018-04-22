@@ -1,0 +1,77 @@
+* Description
+Given a string S and a character C, return an array of integers representing the shortest distance from the character C in the string.
+Example 1:
+
+Input: S = "loveleetcode", C = 'e'
+Output: [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+
+Note:
+
+    S string length is in [1, 10000].
+    C is a single character, and guaranteed to be in string S.
+    All letters in S and C are lowercase.
+* Solution
+#+BEGIN_SRC cpp
+  #include <algorithm>
+  #include <iostream>
+  #include <sstream>
+  #include <string>
+  #include <vector>
+  using namespace std;
+
+  class Solution {
+  public:
+    vector<int> shortestToChar(string S, char C) {
+      istringstream iss(S);
+      vector<string> strs;
+      string temp;
+      while (getline(iss, temp, C)) {
+        strs.push_back(temp);
+      }
+      if (S[S.size() - 1] == C) {
+        strs.push_back("");
+      }
+      vector<int> rv;
+      for (unsigned i = strs[0].size(); i > 0; i--) {
+        rv.push_back(i);
+      }
+      rv.push_back(0);
+      for (unsigned j = 1; j < strs.size()-1; j++) {
+        for (unsigned i = 0; i < strs[j].size(); i++) {
+          if (i + 1 > strs[j].size() - i) {
+            rv.push_back(strs[j].size() - i);
+          } else {
+            rv.push_back(i + 1);
+          }
+        }
+        rv.push_back(0);
+      }
+      for (unsigned i = 0; i < strs[strs.size() - 1].size(); i++) {
+        rv.push_back(i + 1);
+      }
+      return rv;
+    }
+  };
+
+  int main(int argc, char *argv[]) {
+    Solution solution = Solution();
+    vector<int> res = solution.shortestToChar("loveleetcode", 'e');
+    for (int s : res)
+      cout << s << endl;
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+| 3 |
+| 2 |
+| 1 |
+| 0 |
+| 1 |
+| 0 |
+| 0 |
+| 1 |
+| 2 |
+| 2 |
+| 1 |
+| 0 |
