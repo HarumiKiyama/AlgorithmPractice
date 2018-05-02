@@ -53,6 +53,7 @@ Note:
 #+BEGIN_SRC cpp
   #include <iostream>
   #include <math.h>
+  #include <sstream>
   #include <vector>
   using namespace std;
 
@@ -61,30 +62,110 @@ Note:
     int compress(vector<char> &chars) {
       if (chars.size() <= 1)
         return chars.size();
-      int length = 2;
+      int length = 0;
       char former_char = chars[0];
+      bool count_num = false;
       for (int i = 1; i < chars.size(); i++) {
         if (chars[i] == former_char) {
-          if (chars[i] == chars[i - 1])
-            chars[length] = (char)2;
-          else if (chars[i - 1] == '9') {
-            int j = i - 1;
-            int num = 0;
-            for (; j > 1; j--) {
-              if (chars[j] > '9' && chars[j] < '0') {
-                num = (int)chars[j] * (pow(10, i - 1 - j)) + num;
+          if (!count_num) {
+            length++;
+            chars[length] = '0' + 2;
+            count_num = true;
+          } else if (chars[length] == '9') {
+            int j = length;
+            ostringstream oss;
+            for (; j >= 0; j--) {
+              if (chars[j] == former_char)
                 break;
-              }
             }
-            for (; j < i; j++) {
-
+            for (int i= j + 1; i <= length; i++) {
+              oss << chars[i];
             }
+            int num = stoi(oss.str()) + 1;
+            istringstream iss(to_string(num));
+            if (iss.str().size() > oss.str().size())
+              length++;
+            for (j += 1; j <= length; j++) {
+              iss >> chars[j];
+            }
+          } else {
+            chars[length] += 1;
           }
         } else {
           length++;
           former_char = chars[i];
+          chars[length] = former_char;
+          count_num = false;
         }
       }
+      return length + 1;
     }
   };
+
+  int main(int argc, char *argv[]) {
+    // vector<char> n = {'a', 'b', 'b', 'b', 'b', 'b', 'b',
+    //                   'b', 'b', 'b', 'b', 'b', 'b'};
+    // vector<char> n = {'h', 'h', 'h', 'h', 'h', 'h', 'h', 'h',
+    //                   'h', 'h', 'h', 'h', 'h', 'h', 'h', 'h'};
+    vector<char> n = {'1', '1', '1', '1', '1', '1', '2', '2', '2', '2', '2',
+                      '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
+                      '2', '2', '2', '2', '2', '3', '3', '3', '3', '3', '3',
+                      'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'};
+    Solution solution = Solution();
+    int res = solution.compress(n);
+    cout << res << endl;
+    ostringstream oss;
+    for (int j = 0; j < res; j++) {
+      oss << n[j];
+    }
+    cout << oss.str() << endl;
+    for (auto s : n)
+      cout << s << endl;
+    return 0;
+  }
 #+END_SRC
+
+#+RESULTS:
+|         9 |
+| 1622136c8 |
+|         1 |
+|         6 |
+|         2 |
+|         2 |
+|         1 |
+|         3 |
+|         6 |
+|         c |
+|         8 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         3 |
+|         c |
+|         c |
+|         c |
+|         c |
+|         c |
+|         c |
+|         c |
+|         c |
