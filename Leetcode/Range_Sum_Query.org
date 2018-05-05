@@ -1,0 +1,44 @@
+* Description
+Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.
+
+Example:
+
+Given nums = [-2, 0, 3, -5, 2, -1]
+
+sumRange(0, 2) -> 1
+sumRange(2, 5) -> -1
+sumRange(0, 5) -> -3
+
+Note:
+
+    You may assume that the array does not change.
+    There are many calls to sumRange function.
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+
+  class NumArray {
+  public:
+    vector<int> nums;
+    NumArray(vector<int> nums) { this->nums = nums; }
+
+    int sumRange(int i, int j) {
+      int res = 0;
+      for (; i <= j; i++) {
+        res += this->nums[i];
+      }
+      return res;
+    }
+  };
+
+  int main(int argc, char *argv[]) {
+    vector<int> n = {1, 2, 3, 4, 5, 67, 90};
+    NumArray solution = NumArray(n);
+    cout << solution.sumRange(1, 2) << endl;
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
