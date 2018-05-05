@@ -1,0 +1,54 @@
+* Description
+Given a List of words, return the words that can be typed using letters of alphabet on only one row's of American keyboard like the image below.
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <unordered_set>
+  #include <vector>
+  using namespace std;
+
+  class Solution {
+  public:
+    vector<string> findWords(vector<string> &words) {
+      unordered_set<int> first = {'q', 'w', 'e', 'r', 't',
+                                  'y', 'u', 'i', 'o', 'p'};
+      unordered_set<int> second = {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'};
+      unordered_set<int> third = {'z', 'x', 'c', 'v', 'b', 'n', 'm'};
+      vector<string> res;
+      for (auto s : words) {
+        bool accepted = true;
+        unordered_set<int> *k;
+        if (first.find(tolower(s[0])) != first.end()) {
+          k = &first;
+        } else if (second.find(tolower(s[0])) != second.end()) {
+          k = &second;
+        } else {
+          k = &third;
+        }
+        for (auto c : s) {
+          if (k->find(tolower(c)) == k->end()) {
+            accepted = false;
+            break;
+          }
+        }
+        if (accepted) {
+          res.push_back(s);
+        }
+      }
+      return res;
+    }
+  };
+
+  int main(int argc, char *argv[]) {
+    vector<string> name = {"Hello", "Alaska", "Dad", "Peace"};
+    Solution solution = Solution();
+    auto res = solution.findWords(name);
+    for (auto s : res)
+      cout << s << endl;
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+| Alaska |
+| Dad    |
