@@ -4,3 +4,4 @@ A collection of online OJ solutions and some sort of things
 - Python3 :: =CodeWars= =exercism=
 - elisp :: =exercism=
 - Golang :: =CodeWars= =exercism=
+- Cpp :: =Leetcode= =PAT=
