@@ -43,6 +43,7 @@ D表示市场最大需求量。随后一行给出N个正数表示每种月饼的
 #+BEGIN_SRC cpp
   #include <algorithm>
   #include <iostream>
+  #include <vector>
   using namespace std;
   int main(int argc, char *argv[]) {
     typedef struct {
@@ -52,7 +53,7 @@ D表示市场最大需求量。随后一行给出N个正数表示每种月饼的
     } moon_cake;
     int kinds, max_amount;
     cin >> kinds;
-    moon_cake moon_cakes[kinds];
+    vector<moon_cake> moon_cakes(kinds);
     cin >> max_amount;
     for (int i = 0; i < kinds; i++) {
       cin >> moon_cakes[i].amount;
@@ -62,10 +63,9 @@ D表示市场最大需求量。随后一行给出N个正数表示每种月饼的
       moon_cakes[i].price_per_amount =
           moon_cakes[i].total_price / moon_cakes[i].amount;
     }
-    sort(moon_cakes, moon_cakes + kinds * sizeof(moon_cake),
-         [](moon_cake i, moon_cake j) {
-           return i.price_per_amount > j.price_per_amount;
-         });
+    sort(moon_cakes.begin(), moon_cakes.end(), [](moon_cake i, moon_cake j) {
+      return i.price_per_amount > j.price_per_amount;
+    });
     double res = 0;
     for (moon_cake i : moon_cakes) {
       if (max_amount - i.amount >= 0) {
@@ -73,7 +73,8 @@ D表示市场最大需求量。随后一行给出N个正数表示每种月饼的
         max_amount -= i.amount;
       } else {
         res += max_amount * i.price_per_amount;
-        break;
+        break
+  ;
       }
     }
     printf("%.2f\n", res);
