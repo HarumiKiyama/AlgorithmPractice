@@ -1,0 +1,66 @@
+* Description
+给定数字0-9各若干个。你可以以任意顺序排列这些数字，但必须全部使用。目标是使得最后得到的数尽可能小（注意0不能做首位）。例如：
+
+给定两个0，两个1，三个5，一个8，我们得到的最小的数就是10015558。
+
+
+
+现给定数字，请编写程序输出能够组成的最小的数。
+
+
+输入描述:
+
+每个输入包含1个测试用例。每个测试用例在一行中给出10个非负整数，顺序表示我们拥有数字0、数字1、……数字9的个数。整数间用一个空
+
+格分隔。10个数字的总个数不超过50，且至少拥有1个非0的数字。
+
+
+
+输出描述:
+
+在一行中输出能够组成的最小的数。
+
+
+输入例子:
+
+2 2 0 0 0 3 0 0 1 0
+
+
+输出例子:
+
+10015558
+* Solution
+#+BEGIN_SRC cpp :cmdline < input.txt
+  #include "stdio.h"
+  #include <sstream>
+  using namespace std;
+
+  int main(int argc, char *argv[]) {
+    int temp = 0;
+    int zero_length = 0;
+    bool insert_zero = false;
+    ostringstream oss;
+    for (int i = 0; i < 10; i++) {
+      scanf("%d", &temp);
+      if (i == 0) {
+        zero_length = temp;
+        continue;
+      } else if (insert_zero == false) {
+        insert_zero = true;
+      }
+      for (; temp > 0; temp--) {
+        oss << i;
+        if (insert_zero && zero_length > 0) {
+          for (; zero_length > 0; zero_length--) {
+            oss << 0;
+          }
+        }
+      }
+    }
+    printf("%s", oss.str().c_str());
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+: 10015558
