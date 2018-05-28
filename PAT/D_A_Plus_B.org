@@ -1,0 +1,49 @@
+* Description
+输入两个非负10进制整数A和B(<=230-1)，输出A+B的D (1 < D <= 10)进制数。
+
+
+输入描述:
+
+输入在一行中依次给出3个整数A、B和D。
+
+
+
+输出描述:
+
+输出A+B的D进制数。
+
+
+输入例子:
+
+123 456 8
+
+
+输出例子:
+
+1103
+* Solution
+#+BEGIN_SRC cpp
+  #include "stdio.h"
+  #include <algorithm>
+  #include <sstream>
+  using namespace std;
+
+  int main(int argc, char *argv[]) {
+    int A, B, D, res;
+    scanf("%d %d %d", &A, &B, &D);
+    ostringstream oss;
+    if (res == 0) {
+      printf("%d\n", 0);
+    }
+    while (res > 0) {
+      oss << res % D;
+      res /= D;
+    }
+    string rv = oss.str();
+    reverse(rv.begin(), rv.end());
+    printf("%s", rv.c_str());
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
