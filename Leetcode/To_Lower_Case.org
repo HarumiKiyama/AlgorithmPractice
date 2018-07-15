@@ -1,0 +1,23 @@
+* Description
+Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase.
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <sstream>
+  using namespace std;
+
+  class Solution {
+  public:
+    string toLowerCase(string str) {
+      ostringstream oss;
+      const int shift = 'z' - 'Z';
+      for (auto i : str) {
+        if (i >= 'A' && i <= 'Z')
+          oss << (char)(i + shift);
+        else
+          oss << i;
+      }
+      return oss.str();
+    }
+  };
+#+END_SRC
