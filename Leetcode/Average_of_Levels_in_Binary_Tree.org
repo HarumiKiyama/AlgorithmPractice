@@ -18,39 +18,40 @@ Note:
     The range of node's value is in the range of 32-bit signed integer.
 * Solution
 #+BEGIN_SRC cpp
-  #include <queue>
-  #include <vector>
-  using namespace std;
+    #include <queue>
+    #include <vector>
+    using namespace std;
 
-  struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
-  class Solution {
-  public:
-    vector<double> averageOfLevels(TreeNode *root) {
-      vector<double> rv;
-      queue<TreeNode *> temp;
-      temp.push(root);
-      while (!temp.empty()) {
-        int count{0}, sum{0};
-        queue<TreeNode *> q;
+    struct TreeNode {
+      int val;
+      TreeNode *left;
+      TreeNode *right;
+      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    };
+    class Solution {
+    public:
+      vector<double> averageOfLevels(TreeNode *root) {
+        vector<double> rv;
+        queue<TreeNode *> temp;
+        temp.push(root);
         while (!temp.empty()) {
-          TreeNode *t = temp.front();
-          temp.pop();
-          sum += t->val;
-          count++;
-          if (t->left != nullptr)
-            q.push(t->left);
-          if (t->right != nullptr)
-            q.push(t->right);
+          int count{0};
+          long int sum{0};
+          queue<TreeNode *> q;
+          while (!temp.empty()) {
+            TreeNode *t = temp.front();
+            temp.pop();
+            sum += t->val;
+            count++;
+            if (t->left != nullptr)
+              q.push(t->left);
+            if (t->right != nullptr)
+              q.push(t->right);
+          }
+          temp = q;
+          rv.push_back(sum / (double)count);
         }
-        temp = q;
-        rv.push_back(sum / (double)count);
+        return rv;
       }
-      return rv;
-    }
-  };
+    };
 #+END_SRC
