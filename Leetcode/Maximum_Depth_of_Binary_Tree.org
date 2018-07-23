@@ -1,0 +1,49 @@
+* Description
+Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+Note: A leaf is a node with no children.
+
+Example:
+
+Given binary tree [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+return its depth = 3.
+
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+  };
+  class Solution {
+  private:
+    void max(TreeNode *root, int &num) {
+      int right{num}, left{num};
+      if (root->left != nullptr)
+        max(root->left, left);
+      if (root->right != nullptr)
+        max(root->right, right);
+      num = right ? right > left : left;
+    }
+
+  public:
+    int maxDepth(TreeNode *root) {
+      if (root == nullptr)
+        return 0;
+      int num{0};
+      max(root, num);
+      return num;
+    }
+  };
+#+END_SRC
