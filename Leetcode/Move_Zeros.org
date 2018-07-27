@@ -1,0 +1,43 @@
+* Description
+Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Example:
+
+Input: [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+Note:
+
+    You must do this in-place without making a copy of the array.
+    Minimize the total number of operations.
+
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+
+  class Solution {
+  public:
+    void moveZeroes(vector<int> &nums) {
+      if (nums.size() < 1)
+        return;
+      int zero_front{0};
+      for (int i = 0; i < nums.size(); i++)
+        if (nums[i] == 0) {
+          zero_front = i;
+          break;
+        }
+      if ((zero_front == 0 && nums[0] != 0) || (zero_front == nums.size() - 1))
+        return;
+
+      for (int i = zero_front + 1; i < nums.size(); i++)
+        if (nums[i] != 0) {
+          int temp = nums[i];
+          nums[i] = nums[zero_front];
+          nums[zero_front] = temp;
+          zero_front++;
+        }
+    }
+  };
+#+END_SRC
