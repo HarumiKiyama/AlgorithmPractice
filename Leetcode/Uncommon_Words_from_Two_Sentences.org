@@ -1,0 +1,63 @@
+* Description
+We are given two sentences A and B.  (A sentence is a string of space separated words.  Each word consists only of lowercase letters.)
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Return a list of all uncommon words.
+
+You may return the list in any order.
+
+Example 1:
+
+Input: A = "this apple is sweet", B = "this apple is sour"
+Output: ["sweet","sour"]
+
+Example 2:
+
+Input: A = "apple apple", B = "banana"
+Output: ["banana"]
+
+Note:
+
+    0 <= A.length <= 200
+    0 <= B.length <= 200
+    A and B both contain only spaces and lowercase letters.
+* Solution
+#+BEGIN_SRC cpp
+  #include <algorithm>
+  #include <map>
+  #include <sstream>
+  #include <vector>
+  using namespace std;
+
+  class Solution {
+  public:
+    vector<string> uncommonFromSentences(string A, string B) {
+      map<string, int> m;
+      istringstream iss(A);
+      vector<string> rv;
+      while (iss) {
+        string t;
+        iss >> t;
+        if (m.find(t) == m.end())
+          m[t] = 1;
+        else
+          m[t] += 1;
+      }
+      istringstream bss(B);
+      while (bss) {
+        string t;
+        bss >> t;
+        if (m.find(t) == m.end())
+          m[t] = 1;
+        else
+          m[t] += 1;
+      }
+      for (auto i : m) {
+        if (i.second < 2)
+          rv.push_back(i.first);
+      }
+      return rv;
+    }
+  };
+#+END_SRC
