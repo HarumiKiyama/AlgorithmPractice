@@ -1,0 +1,62 @@
+* Description
+Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.
+
+Example 1:
+
+Input:
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 9
+
+Output: True
+
+Example 2:
+
+Input:
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 28
+
+Output: False
+* Solution
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+
+  struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+  };
+  class Solution {
+  public:
+    void flattenTree(TreeNode *root, vector<int> &temp) {
+      if (root == nullptr)
+        return;
+      temp.push_back(root->val);
+      flattenTree(root->left, temp);
+      flattenTree(root->right, temp);
+    }
+    bool findTarget(TreeNode *root, int k) {
+      vector<int> temp;
+      flattenTree(root, temp);
+      for (int i = 0; i < temp.size()-1; i++) {
+        for (int j = i+1; j< temp.size(); j++){
+          if (temp[i]+temp[j] == k)
+            return true;
+        }
+      }
+      return false;
+    }
+  };
+#+END_SRC
