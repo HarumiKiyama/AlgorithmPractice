@@ -1,0 +1,55 @@
+* Description
+Given a non-empty string check if it can be constructed by taking a substring of it and appending multiple copies of the substring together. You may assume the given string consists of lowercase English letters only and its length will not exceed 10000.
+
+
+
+Example 1:
+
+Input: "abab"
+Output: True
+Explanation: It's the substring "ab" twice.
+
+Example 2:
+
+Input: "aba"
+Output: False
+
+Example 3:
+
+Input: "abcabcabcabc"
+Output: True
+Explanation: It's the substring "abc" four times. (And the substring "abcabc" twice.)
+* Solution
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  class Solution {
+  public:
+    bool repeatedSubstringPattern(string s) {
+      int length = s.size();
+      if (length == 1)
+        return false;
+      if (length % 2 == 0) {
+        string s1 = s.substr(0, length / 2);
+        s1 += s1;
+        if (s1 == s)
+          return true;
+      }
+      for (int i{3}; i < length / 2 + 1; i += 2) {
+        if (length % i == 0) {
+          string s1 = s.substr(0, length / i);
+          string s2{};
+          for (int j{0}; j < i; j++)
+            s2 += s1;
+          if (s2 == s)
+            return true;
+        }
+      }
+      string s1 = string(length, s[0]);
+      return s1 == s;
+    }
+  };
+#+end_src
+
+#+RESULTS:
