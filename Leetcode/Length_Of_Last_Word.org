@@ -1,0 +1,40 @@
+* Description
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+Note: A word is defined as a character sequence consists of non-space characters only.
+
+Example:
+
+Input: "Hello World"
+Output: 5
+* Solution
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  class Solution {
+  public:
+    int lengthOfLastWord(string s) {
+      int length = s.size();
+      int end{0}, rv{0};
+      if (length == 0)
+        return 0;
+      for (int i{length - 1}; i >= 0; i--) {
+        if (s[i] != ' ') {
+          end = i;
+          break;
+        }
+      }
+      end = end <= length - 1 ? end : length - 1;
+      for (int i{0}; i <= end; i++) {
+        rv++;
+        if (s[i] == ' ') {
+          rv = 0;
+        }
+      }
+      return rv;
+    }
+  };
+#+end_src
