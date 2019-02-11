@@ -1,0 +1,45 @@
+* Description
+Given two binary strings, return their sum (also a binary string).
+
+The input strings are both non-empty and contains only characters 1 or 0.
+
+Example 1:
+
+Input: a = "11", b = "1"
+Output: "100"
+
+Example 2:
+
+Input: a = "1010", b = "1011"
+Output: "10101"
+* Solution
+#+begin_src cpp
+  #include <algorithm>
+  #include <bitset>
+  #include <iostream>
+  #include <sstream>
+  using namespace std;
+
+  class Solution {
+  public:
+    string addBinary(string a, string b) {
+      string res;
+      bool carry = false, da = false, db = false;
+
+      for (string::reverse_iterator it_a = a.rbegin(), it_b = b.rbegin();
+           it_a != a.rend() || it_b != b.rend();) {
+        da = it_a != a.rend() ? *it_a++ - '0' : false;
+        db = it_b != b.rend() ? *it_b++ - '0' : false;
+        res.insert(res.begin(), (!da & !db & carry) | (!da & db & !carry) |
+                                    (da & db & carry) |
+                                    (da & !db & !carry) + '0');
+        carry = (db & carry) | (db & da) | (da & carry);
+      }
+
+      if (carry)
+        res.insert(res.begin(), '1');
+
+      return res;
+    }
+  };
+#+end_src
