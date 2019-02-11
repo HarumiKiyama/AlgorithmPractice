@@ -49,6 +49,11 @@ Explanation: It's the substring "abc" four times. (And the substring "abcabc" tw
       string s1 = string(length, s[0]);
       return s1 == s;
     }
+    bool newRepeatedSubstringPattern(string s) {
+      int length = s.size();
+      string s1 = s.substr(1, length - 1) + s.substr(0, length - 2);
+      return s1.find(s) != string::npos;
+    }
   };
 #+end_src
 
