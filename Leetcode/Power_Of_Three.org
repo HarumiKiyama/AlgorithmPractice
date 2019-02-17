@@ -35,10 +35,10 @@ Could you do it without using any loop / recursion?
     bool isPowerOfThree(int n) {
       if (n == 0)
         return false;
+      if (n==2)
+        return false;
       float e = log(n) / log(3);
-      if (n == pow(3, e))
-        return true;
-      return false;
+      return n == pow(3, (int)e);
     }
   };
 #+end_src
