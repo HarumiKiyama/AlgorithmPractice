@@ -1,0 +1,36 @@
+* Description
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+Note: For the purpose of this problem, we define empty string as valid palindrome.
+
+Example 1:
+
+Input: "A man, a plan, a canal: Panama"
+Output: true
+
+Example 2:
+
+Input: "race a car"
+Output: false
+* Solution
+#+begin_src rust
+  impl Solution {
+      pub fn is_palindrome(s: String) -> bool {
+          let ns = s
+              .chars()
+              .filter(|a| a.is_alphanumeric())
+              .map(|a| a.to_ascii_lowercase())
+              .collect::<Vec<char>>();
+          let length = ns.len();
+          if length == 0 || length == 1 {
+              return false;
+          }
+          for i in 0..length / 2+1 {
+              if ns[i] != ns[length -1  - i] {
+                  return false;
+              }
+          }
+          return true;
+      }
+  }
+#+end_src
