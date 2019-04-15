@@ -1,0 +1,41 @@
+* Description
+Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
+Example 1:
+Input: "aba"
+Output: True
+
+Example 2:
+
+Input: "abca"
+Output: True
+Explanation: You could delete the character 'c'.
+
+Note:
+
+    The string will only contain lowercase characters a-z. The maximum length of the string is 50000.
+* Solution
+#+begin_src rust
+  impl Solution {
+      pub fn valid_palindrome(s: String) -> bool {
+          let ns = s.chars().collect::<Vec<char>>();
+          if Solution::is_palindrome(&ns, 0, ns.len() - 1, false) {
+              return true;
+          }
+          return false;
+      }
+
+      fn is_palindrome(ns: &Vec<char>, start: usize, end: usize, used_delete: bool) -> bool {
+          let length = end - start;
+          for i in 0..length / 2 + 1 {
+              if ns[start + i] != ns[end - i] {
+                  if used_delete {
+                      return false;
+                  }
+                  return Solution::is_palindrome(&ns, start + i, end - i - 1, true)
+                      || Solution::is_palindrome(&ns, start + i + 1, end - i, true);
+              }
+          }
+          return true;
+      }
+  }
+#+end_src
