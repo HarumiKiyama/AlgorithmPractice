@@ -1,0 +1,50 @@
+* Description
+Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the majority element always exist in the array.
+
+Example 1:
+
+Input: [3,2,3]
+Output: 3
+
+Example 2:
+
+Input: [2,2,1,1,1,2,2]
+Output: 2
+* Solution
+#+begin_src python
+  class Solution:
+      def majorityElement(self, nums: List[int]) -> int:
+          t = {}
+          length = len(nums)
+          for i in nums:
+              t[i] = t.get(i,0) + 1
+          for k,v in t.items():
+              if v > length/2:
+                  return k
+#+end_src
+
+#+begin_src rust
+  impl Solution {
+      pub fn majority_element(nums: Vec<i32>) -> i32 {
+          let mut temp: HashMap<i32, i32> = HashMap::new();
+          for &i in &nums {
+              match &temp.get(&i) {
+                  Some(v) => {
+                      temp.insert(i, *v + 1);
+                  }
+                  None => {
+                      temp.insert(i, 1);
+                  }
+              }
+          }
+          for (&k, &v) in &temp {
+              if v > (nums.len() / 2) as i32 {
+                  return k;
+              }
+          }
+          return 0;
+      }
+  }
+#+end_src
