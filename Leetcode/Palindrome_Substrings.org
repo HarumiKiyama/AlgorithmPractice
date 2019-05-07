@@ -1,0 +1,55 @@
+* Description
+Given a string, your task is to count how many palindromic substrings in this string.
+
+The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.
+
+Example 1:
+
+Input: "abc"
+Output: 3
+Explanation: Three palindromic strings: "a", "b", "c".
+
+Example 2:
+
+Input: "aaa"
+Output: 6
+Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
+
+* Solution
+#+begin_src rust
+  impl Solution {
+      pub fn count_substrings(s: String) -> i32 {
+          let mut pl: Vec<usize> = Vec::new();
+          let mut p = 0;
+          let mut max_right = 0;
+          let mut rv = 0 as i32;
+          let mut ns: Vec<char> = vec!['#'];
+          for i in s.chars() {
+              ns.push(i);
+              ns.push('#');
+          }
+          for _ in &ns {
+              pl.push(1);
+          }
+          for i in 0..pl.len() {
+              if i < max_right {
+                  pl[i] = min(pl[2 * p - i], max_right - i);
+              } else {
+                  pl[i] = 1;
+              }
+              while (i - pl[i]) as i32 >= 0 && i + pl[i] < ns.len() && ns[i - pl[i]] == ns[i + pl[i]]
+              {
+                  pl[i] += 1;
+              }
+              if i + pl[i] - 1 > max_right {
+                  max_right = i + pl[i] - 1;
+                  p = i;
+              }
+          }
+          for i in 0..pl.len() {
+              rv = rv + pl[i] as i32 / 2;
+          }
+          return rv;
+      }
+  }
+#+end_src
