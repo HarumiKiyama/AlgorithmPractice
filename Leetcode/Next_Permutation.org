@@ -1,0 +1,42 @@
+* Description
+Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+
+The replacement must be in-place and use only constant extra memory.
+
+Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+* Solution
+#+begin_src python
+  class Solution:
+      def nextPermutation(self, nums: List[int]) -> None:
+          length = len(nums)
+
+          def reverse(start, end):
+              for i in range(start, (length + start) // 2):
+                  sym_i = start + length - i - 1
+                  nums[i], nums[sym_i] = nums[sym_i], nums[i]
+
+          if length < 2:
+              return
+          start_index = None
+          for i in range(length - 1, 0, -1):
+              if nums[i] > nums[i - 1]:
+                  start_index = i
+                  break
+          if start_index is None:
+              reverse(0, length - 1)
+              return
+          pivot = nums[start_index - 1]
+          for i in range(length - 1, start_index - 1, -1):
+              if nums[i] > pivot:
+                  nums[i], nums[start_index - 1] = nums[start_index - 1], nums[i]
+                  break
+          else:
+              nums[-1], nums[start_index - 1] = nums[start_index - 1], nums[-1]
+          reverse(start_index, length - 1)
+#+end_src
