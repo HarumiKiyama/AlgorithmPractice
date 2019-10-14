@@ -38,6 +38,8 @@ A solution set is:
           def _helper(target, i, path):
               for j in range(i + 1, len(candidates)):
                   new_t = target - candidates[j]
+                  if j > i + 1 and candidates[j] == candidates[j-1]:
+                      continue
                   if new_t < 0:
                       break
                   if new_t == 0:
