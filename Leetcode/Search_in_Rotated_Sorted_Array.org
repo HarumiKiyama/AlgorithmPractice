@@ -1,0 +1,61 @@
+* Description
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+Your algorithm's runtime complexity must be in the order of O(log n).
+
+Example 1:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+* Solution
+#+begin_src python
+  class Solution:
+      def search(self, nums: List[int], target: int) -> int:
+          if len(nums) <= 3:
+              if target in nums:
+                  return nums.index(target)
+              return -1
+
+          tail = nums[-1]
+
+          def find_rotate_point(lower, upper):
+              if upper - lower <= 1:
+                  return lower
+              middle = (lower + upper) // 2
+              if nums[middle] > nums[upper]:
+                  return find_rotate_point(middle, upper)
+              else:
+                  return find_rotate_point(lower, middle)
+
+          def find_element(lower, upper):
+              if upper <= lower:
+                  if nums[upper] == target:
+                      return upper
+                  return -1
+              middle = (lower + upper) // 2
+              if nums[middle] == target:
+                  return middle
+              if nums[middle] > target:
+                  return find_element(lower, middle - 1)
+              return find_element(middle + 1, upper)
+
+          if nums[0] > tail:
+              rotate_point = find_rotate_point(0, len(nums) - 1)
+              if target > tail:
+                  return find_element(0, rotate_point)
+              if target == tail:
+                  return len(nums) - 1
+              return find_element(rotate_point + 1, len(nums) - 1)
+          return find_element(0, len(nums) - 1)
+#+end_src
