@@ -1,0 +1,68 @@
+* Description
+Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+Example 1:
+
+Input: num1 = "2", num2 = "3"
+Output: "6"
+
+Example 2:
+
+Input: num1 = "123", num2 = "456"
+Output: "56088"
+
+Note:
+
+    The length of both num1 and num2 is < 110.
+    Both num1 and num2 contain only digits 0-9.
+    Both num1 and num2 do not contain any leading zero, except the number 0 itself.
+    You must not use any built-in BigInteger library or convert the inputs to integer directly.
+* Solution
+#+begin_src python
+  class Solution:
+      def multiply(self, num1: str, num2: str) -> str:
+          num1 = list(num1)
+          num1.reverse()
+          num2 = list(num2)
+          num2.reverse()
+          rv = []
+          for index, i in enumerate(num1):
+              carry = 0
+              t = [0] * index
+              for j in num2:
+                  a = int(i)
+                  b = int(j)
+                  v = a * b + carry
+                  remain = v % 10
+                  t = [remain] + t
+                  carry = v // 10
+              if carry > 0:
+                  t = [carry] + t
+              if len(rv) == 0:
+                  rv = t
+                  continue
+              n = []
+              carry = 0
+              rv.reverse()
+              t.reverse()
+              for i in range(len(t)):
+                  if i >= len(rv):
+                      if carry > 0:
+                          v = t[i] + carry
+                          remain = v % 10
+                          carry = v // 10
+                          n = [remain] + n
+                      else:
+                          n = [t[i]] + n
+                      continue
+                  v = rv[i] + t[i] + carry
+                  remain = v % 10
+                  n = [remain] + n
+                  carry = v // 10
+              if carry > 0:
+                  n = [carry] + n
+              rv = n
+          if rv[0] == 0:
+              return '0'
+          return ''.join([str(i) for i in rv])
+#+end_src
