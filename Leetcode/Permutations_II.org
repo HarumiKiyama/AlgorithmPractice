@@ -1,0 +1,30 @@
+* Description
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+Example:
+
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+
+* Solution
+#+begin_src python
+  class Solution:
+      def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+          if len(nums) == 0:
+              return [[]]
+          rv = [[]]
+          for i in nums:
+              new_rv = []
+              for l in rv:
+                  for j in range(len(l) + 1):
+                      new_rv.append(l[:j]+[i]+l[j:])
+                      if j<len(l) and l[j] == i:
+                          break
+              rv = new_rv
+          return rv
+#+end_src
