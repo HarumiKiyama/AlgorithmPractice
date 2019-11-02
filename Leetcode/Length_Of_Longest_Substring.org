@@ -36,6 +36,4 @@ Explanation: The answer is "wke", with the length of 3.
               t[s[i]] = i + 1
           return rv
 
-
-
 #+end_src
