@@ -1,0 +1,91 @@
+* Description
+Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
+
+'.' Matches any single character.
+'*' Matches zero or more of the preceding element.
+
+The matching should cover the entire input string (not partial).
+
+Note:
+
+    s could be empty and contains only lowercase letters a-z.
+    p could be empty and contains only lowercase letters a-z, and characters like . or *.
+
+Example 1:
+
+Input:
+s = "aa"
+p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+
+Example 2:
+
+Input:
+s = "aa"
+p = "a*"
+Output: true
+Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
+
+Example 3:
+
+Input:
+s = "ab"
+p = ".*"
+Output: true
+Explanation: ".*" means "zero or more (*) of any character (.)".
+
+Example 4:
+
+Input:
+s = "aab"
+p = "c*a*b"
+Output: true
+Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches "aab".
+
+Example 5:
+
+Input:
+s = "mississippi"
+p = "mis*is*p*."
+Output: false
+* Solution
+#+begin_src python
+  class Solution:
+      def isMatch(self, s: str, p: str) -> bool:
+          memoization = {}
+
+          def _helper(i, j):
+              if (i, j) in memoization:
+                  return memoization[(i, j)]
+
+              if len(s) == i:
+                  if len(p) == j:
+                      memoization[i, j] = True
+                      return True
+                  if j <= len(p) - 2 and p[j + 1] == '*':
+                      return _helper(i, j + 2)
+                  memoization[i, j] = False
+                  return False
+              if len(p) == j:
+                  memoization[i,j] = False
+                  return False
+
+              first_match = p[j] in (s[i], '.')
+
+              if j + 1 >= len(p) or p[j + 1] != '*':
+                  if not first_match:
+                      memoization[i, j] = False
+                      return False
+                  return _helper(i + 1, j + 1)
+
+              if p[j + 1] == '*':
+                  if first_match:
+                      rv = _helper(i, j + 2) or _helper(i + 1, j)
+                  else:
+                      rv = _helper(i, j + 2)
+                  memoization[i, j] = rv
+                  return rv
+
+          return _helper(0, 0)
+#+end_src
