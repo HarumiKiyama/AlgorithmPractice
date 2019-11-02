@@ -59,33 +59,16 @@ Output: false
               if (i, j) in memoization:
                   return memoization[(i, j)]
 
-              if len(s) == i:
-                  if len(p) == j:
-                      memoization[i, j] = True
-                      return True
-                  if j <= len(p) - 2 and p[j + 1] == '*':
-                      return _helper(i, j + 2)
-                  memoization[i, j] = False
-                  return False
               if len(p) == j:
-                  memoization[i,j] = False
-                  return False
-
-              first_match = p[j] in (s[i], '.')
-
-              if j + 1 >= len(p) or p[j + 1] != '*':
-                  if not first_match:
-                      memoization[i, j] = False
-                      return False
-                  return _helper(i + 1, j + 1)
-
-              if p[j + 1] == '*':
-                  if first_match:
-                      rv = _helper(i, j + 2) or _helper(i + 1, j)
+                  rv = i == len(s)
+              else:
+                  first_match = i < len(s) and p[j] in (s[i] , '.')
+                  if j+1 < len(p) and p[j + 1] == '*':
+                      rv = _helper(i, j + 2) or first_match and _helper(i + 1, j)
                   else:
-                      rv = _helper(i, j + 2)
-                  memoization[i, j] = rv
-                  return rv
+                      rv = first_match and _helper(i + 1, j + 1)
+              memoization[i,j] = rv
+              return memoization[i,j]
 
           return _helper(0, 0)
 #+end_src
