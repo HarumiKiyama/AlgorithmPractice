@@ -63,9 +63,8 @@ Constraints:
               g.setdefault(u, []).append(v)
               g.setdefault(v, []).append(u)
 
-          N = len(connections)
-          lev = [None] * N
-          low = [None] * N
+          lev = [None] * n
+          low = [None] * n
 
           def dfs(node, par, level):
               # already visited
