@@ -1,0 +1,46 @@
+* Description
+Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+Example 1:
+
+Input: 1->2->3->3->4->4->5
+Output: 1->2->5
+
+Example 2:
+
+Input: 1->1->1->2->3
+Output: 2->3
+* Solution
+#+begin_src python
+  class Solution:
+      def deleteDuplicates(self, head: ListNode) -> ListNode:
+          if head is None:
+              return head
+          p_v = head.val
+          dummy = ListNode(None)
+          dummy.next = head
+          p_prev = dummy
+          prev = head
+          cur = head.next
+          del_prev = False
+          while cur is not None:
+              if cur.val == p_v:
+                  del_prev = True
+                  prev.next = cur.next
+                  cur = cur.next
+              elif del_prev:
+                  del_prev = False
+                  p_v = cur.val
+                  p_prev.next = cur
+                  prev = cur
+                  cur = cur.next
+              else:
+                  del_prev = False
+                  p_prev = prev
+                  prev = cur
+                  p_v = cur.val
+                  cur = cur.next
+          if del_prev:
+              p_prev.next = cur
+          return dummy.next
+#+end_src
