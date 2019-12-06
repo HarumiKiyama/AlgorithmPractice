@@ -1,0 +1,43 @@
+* Description
+Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You may not modify the values in the list's nodes, only nodes itself may be changed.
+
+Example 1:
+
+Given 1->2->3->4, reorder it to 1->4->2->3.
+
+Example 2:
+
+Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
+
+* Solution
+#+begin_src python
+  class Solution:
+      def reorderList(self, head: ListNode) -> None:
+          """
+          Do not return anything, modify head in-place instead.
+          """
+          if head is None:
+              return
+          # find middle
+          fast = slow = head
+          while fast is not None and fast.next is not None:
+              slow = slow.next
+              fast = fast.next.next
+          # reverse mid
+          prev = None
+          cur = slow
+          while cur is not None:
+              t = cur.next
+              cur.next = prev
+              prev = cur
+              cur = t
+              # prev, cur, cur.next = cur, cur.next, prev
+          first = head
+          second = prev
+          while second.next is not None:
+              first.next, first = second, first.next
+              second.next, second = first, second.next
+#+end_src
