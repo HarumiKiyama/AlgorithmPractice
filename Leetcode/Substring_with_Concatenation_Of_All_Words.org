@@ -1,0 +1,44 @@
+* Description
+You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+
+Example 1:
+
+Input:
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+Output: [0,9]
+Explanation: Substrings starting at index 0 and 9 are "barfoo" and "foobar" respectively.
+The output order does not matter, returning [9,0] is fine too.
+
+Example 2:
+
+Input:
+  s = "wordgoodgoodgoodbestword",
+  words = ["word","good","best","word"]
+Output: []
+* Solution
+#+begin_src python
+  class Solution:
+      def findSubstring(self, s: str, words: List[str]) -> List[int]:
+          if len(s) == 0 or len(words) == 0:
+              return []
+          counts = {}
+          word_len = len(words[0])
+          str_len = len(s)
+          words_num = len(words)
+
+          def is_concat(start):
+              seen = {}
+              for i in range(start, start+word_len*words_num, word_len):
+                  t_s = s[i:i+word_len]
+                  seen[t_s] = seen.get(t_s,0) + 1
+              return seen == counts
+
+          for i in words:
+              counts[i] = counts.get(i, 0) + 1
+          rv = []
+          for i in range(str_len - words_num * word_len + 1):
+              if is_concat(i):
+                  rv.append(i)
+          return rv
+#+end_src
