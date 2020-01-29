@@ -1,0 +1,50 @@
+* Description
+A binary watch has 4 LEDs on the top which represent the hours (0-11), and the 6 LEDs on the bottom represent the minutes (0-59).
+
+Each LED represents a zero or one, with the least significant bit on the right.
+
+For example, the above binary watch reads "3:25".
+
+Given a non-negative integer n which represents the number of LEDs that are currently on, return all possible times the watch could represent.
+
+Example:
+
+Input: n = 1
+Return: ["1:00", "2:00", "4:00", "8:00", "0:01", "0:02", "0:04", "0:08", "0:16", "0:32"]
+
+Note:
+
+    The order of output does not matter.
+    The hour must not contain a leading zero, for example "01:00" is not valid, it should be "1:00".
+    The minute must be consist of two digits and may contain a leading zero, for example "10:2" is not valid, it should be "10:02".
+* Solution
+#+begin_src python :session :results output
+class Solution:
+    def readBinaryWatch(self, num: int) -> List[str]:
+        rv = []
+        def _num_gen(n,m,rv,left=0,temp=0):
+            if n == 0:
+                if (m==4 and temp < 12) or (m==6 and temp < 60) :
+                    rv.append(temp)
+                return
+            for i in range(left, m):
+                temp += 2**i
+                _num_gen(n-1, m, rv, i + 1, temp)
+                temp -= 2**i
+        def _helper(hours, minutes):
+            rv = []
+            hour_list = []
+            _num_gen(hours, 4, hour_list)
+            minute_list =[]
+            _num_gen(minutes, 6, minute_list)
+            for i in hour_list:
+                for j in minute_list:
+                    s = "{}:{:02d}".format(i,j)
+                    rv.append(s)
+            return rv
+        for hour_point in range(min(num, 4)+1):
+            minute_point = num-hour_point
+            rv.extend(_helper(hour_point, minute_point))
+        return rv
+#+end_src
+
