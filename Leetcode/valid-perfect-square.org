@@ -1,0 +1,30 @@
+* Description
+Given a positive integer num, write a function which returns True if num is a perfect square else False.
+
+Note: Do not use any built-in library function such as sqrt.
+
+Example 1:
+
+Input: 16
+Output: true
+
+Example 2:
+
+Input: 14
+Output: false
+* Solution
+#+begin_src python
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        if num == 1:
+            return True
+        def _newton(v):
+            return (v + num / v) / 2
+        prev = num / 2
+        cur  = _newton(prev)
+        while abs(prev - cur ) > 0.0001:
+            prev, cur = cur, _newton(cur)
+        if abs(int(cur) - cur) < 0.001 or abs(int(cur+1) - cur) < 0.001:
+            return True
+        return False
+#+end_src
