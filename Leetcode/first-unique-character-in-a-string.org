@@ -1,0 +1,25 @@
+* Description
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+
+Note: You may assume the string contain only lowercase letters.
+* Solution
+#+begin_src python
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        d = {}
+        for i,j in enumerate(s):
+            t = d.setdefault(j, [i, 0])
+            t[1] += 1
+        for i,n in d.values():
+            if n == 1:
+                return i
+        return -1
+#+end_src
