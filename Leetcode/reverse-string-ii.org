@@ -1,0 +1,36 @@
+* Description
+Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
+
+Example:
+
+Input: s = "abcdefg", k = 2
+Output: "bacdfeg"
+
+Restrictions:
+
+    The string consists of lower English letters only.
+    Length of the given string and k will in the range [1, 10000]
+* Solution
+#+begin_src python
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        s = list(s)
+        last = 0
+        def reverse(start, end):
+            while start < end:
+                s[start], s[end] = s[end], s[start]
+                start += 1
+                end -= 1
+
+        for i in range(len(s)):
+            if i % (2*k) == 2*k -1:
+                reverse(i-2*k+1, i-k)
+                last = i + 1
+        if last == len(s):
+            return ''.join(s)
+        if len(s) - last <= k:
+            reverse(last, len(s) -1)
+        else:
+            reverse(last, last+k - 1)
+        return ''.join(s)
+#+end_src
