@@ -1,0 +1,23 @@
+* Description
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
+
+Please note that the string does not contain any non-printable characters.
+
+Example:
+
+Input: "Hello, my name is John"
+Output: 5
+* Solution
+#+begin_src python
+class Solution:
+    def countSegments(self, s: str) -> int:
+        rv = 0
+        in_word = False
+        for i in s:
+            if in_word and i == ' ':
+                in_word = False
+            elif i != ' ' and not in_word:
+                in_word = True
+                rv += 1
+        return rv
+#+end_src
