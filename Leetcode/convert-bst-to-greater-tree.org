@@ -1,0 +1,32 @@
+* Description
+Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus sum of all keys greater than the original key in BST.
+
+Example:
+
+Input: The root of a Binary Search Tree like this:
+              5
+            /   \
+           2     13
+
+Output: The root of a Greater Tree like this:
+             18
+            /   \
+          20     13
+
+* Solution
+#+begin_src python
+class Solution:
+    def convertBST(self, root: TreeNode) -> TreeNode:
+        greater_sum = 0
+        def _helper(root):
+            nonlocal greater_sum
+            if root is None:
+                return
+            _helper(root.right)
+            t = root.val
+            root.val += greater_sum
+            greater_sum +=  t
+            _helper(root.left)
+        _helper(root)
+        return root
+#+end_src
