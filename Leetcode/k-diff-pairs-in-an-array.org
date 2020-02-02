@@ -35,11 +35,15 @@ class Solution:
         i_s = {}
         for i in nums:
             if k != 0:
-                if i not in i_s and (i - k in i_s or i + k in i_s):
-                    rv += 1
+                if i not in i_s:
+                    if  i - k in i_s:
+                        rv += 1
+                    if i + k in i_s:
+                        rv += 1
             else:
                 if i_s.get(i, 0) == 1:
                     rv += 1
             i_s[i] = i_s.get(i, 0) + 1
         return rv
 #+end_src
+
