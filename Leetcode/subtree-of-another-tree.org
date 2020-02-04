@@ -1,0 +1,61 @@
+* Description
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
+
+Example 1:
+Given tree s:
+
+     3
+    / \
+   4   5
+  / \
+ 1   2
+
+Given tree t:
+
+   4
+  / \
+ 1   2
+
+Return true, because t has the same structure and node values with a subtree of s.
+
+Example 2:
+Given tree s:
+
+     3
+    / \
+   4   5
+  / \
+ 1   2
+    /
+   0
+
+Given tree t:
+
+   4
+  / \
+ 1   2
+
+Return false.
+* Solution
+#+begin_src python
+class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        def backtrace(s, t):
+            if s is None:
+                return t is None
+            if t is None:
+                return s is None
+            if s.val != t.val:
+                return False
+            return backtrace(s.left, t.left) and backtrace(s.right, t.right)
+        s_l = [s]
+        while len(s_l) > 0:
+            n = s_l.pop()
+            if backtrace(n, t):
+                return True
+            if n.left is not None:
+                s_l.append(n.left)
+            if n.right is not None:
+                s_l.append(n.right)
+        return False
+#+end_src
