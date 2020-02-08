@@ -22,7 +22,7 @@ class Solution(object):
         counts = [1] * N #count[i] = number of longest ending in nums[i]
 
         for j, num in enumerate(nums):
-            for i in xrange(j):
+            for i in range(j):
                 if nums[i] < nums[j]:
                     if lengths[i] >= lengths[j]:
                         lengths[j] = 1 + lengths[i]
