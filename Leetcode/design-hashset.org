@@ -60,3 +60,63 @@ class MyHashSet:
         return key in l
        
 #+end_src
+
+#+begin_src cpp
+class MyHashSet {
+public:
+    /** Initialize your data structure here. */
+    vector<uint32_t> items;
+    MyHashSet() : items(31251, 0) {
+
+    }
+
+    void add(int key) {
+        items[key >> 5] |= 1 << (key & 0b11111);
+    }
+
+    void remove(int key) {
+        items[key >> 5] &= ~(1 << (key & 0b11111));
+    }
+
+    /** Returns true if this set contains the specified element */
+    bool contains(int key) {
+        return items[key >> 5] & 1 << (key & 0b11111);
+    }
+};
+#+end_src
+
+#+begin_src rust
+struct MyHashSet {
+    v : Box<Vec<u64>>
+}
+
+
+/**
+ ,* `&self` means the method takes an immutable reference.
+ ,* If you need a mutable reference, change it to `&mut self` instead.
+ ,*/
+impl MyHashSet {
+
+    /** Initialize your data structure here. */
+    fn new() -> Self {
+        let size = 15626;
+        let v : Vec<u64> = vec![0; size];
+        MyHashSet {
+            v : Box::new(v)
+        }
+    }
+
+    fn add(& mut self, key: i32) {
+        self.v[(key >> 10) as usize] |= 1 << (key&0b1111111111);
+    }
+
+    fn remove(& mut self, key: i32) {
+        self.v[(key >> 10) as usize] &= !(1 << (key&0b1111111111))
+    }
+
+    /** Returns true if this set contains the specified element */
+    fn contains(&self, key: i32) -> bool {
+        (self.v[(key >> 10) as usize] & 1 << (key & 0b1111111111)) != 0
+    }
+}
+#+end_src
