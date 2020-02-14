@@ -41,3 +41,31 @@ class Solution:
             return max_v
         return -1
 #+end_src
+
+#+begin_src rust
+impl Solution {
+    pub fn dominant_index(nums: Vec<i32>) -> i32 {
+        if nums.len() == 1{
+            return 0;
+        }
+        let mut max_i = 0;
+        let mut max_s = 1;
+        if nums[max_i] < nums[max_s]{
+            std::mem::swap(&mut max_i, &mut max_s);
+        }
+        for i in 2..nums.len(){
+            if nums[i] >= nums[max_i]{
+                max_s = max_i;
+                max_i = i;
+            }
+            else if nums[i] > nums[max_s]{
+                max_s = i;
+            }
+        }
+        if nums[max_s] == 0 || nums[max_i] / nums[max_s] >= 2{
+            return max_i as i32;
+        }
+        return  -1;
+    }
+}
+#+end_src
