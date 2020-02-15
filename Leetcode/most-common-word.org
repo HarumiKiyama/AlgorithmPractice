@@ -41,7 +41,7 @@ class Solution:
                     d[word] = d.get(word, 0) + 1
                 word = ''
         if len(word) > 0 and word not in banned:
-            pass
+            d[word] = d.get(word, 0) + 1
         rv = ''
         t = 0
         for i,j in d.items():
