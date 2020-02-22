@@ -1,0 +1,46 @@
+* Description
+Given a string S, return the "reversed" string where all characters that are not a letter stay in the same place, and all letters reverse their positions.
+
+
+
+Example 1:
+
+Input: "ab-cd"
+Output: "dc-ba"
+
+Example 2:
+
+Input: "a-bC-dEf-ghIj"
+Output: "j-Ih-gfE-dCba"
+
+Example 3:
+
+Input: "Test1ng-Leet=code-Q!"
+Output: "Qedo1ct-eeLg=ntse-T!"
+
+Note:
+
+    S.length <= 100
+    33 <= S[i].ASCIIcode <= 122
+    S doesn't contain \ or "
+* Solution
+#+begin_src python
+class Solution:
+    def reverseOnlyLetters(self, S: str) -> str:
+        l = list(S)
+        letters = set()
+        for i in range(26):
+            letters.add(chr(i+ord('a')))
+        i=0
+        j = len(l) - 1
+        while i<j:
+            if l[i].lower() not in letters:
+                i+=1
+            elif l[j].lower() not in letters:
+                j -= 1
+            else:
+                l[i],l[j] = l[j], l[i]
+                i += 1
+                j -= 1
+        return ''.join(l)
+#+end_src
