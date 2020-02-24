@@ -1,0 +1,70 @@
+* Description
+Write a class RecentCounter to count recent requests.
+
+It has only one method: ping(int t), where t represents some time in milliseconds.
+
+Return the number of pings that have been made from 3000 milliseconds ago until now.
+
+Any ping with time in [t - 3000, t] will count, including the current ping.
+
+It is guaranteed that every call to ping uses a strictly larger value of t than before.
+
+Example 1:
+
+Input: inputs = ["RecentCounter","ping","ping","ping","ping"], inputs = [[],[1],[100],[3001],[3002]]
+Output: [null,1,2,3,3]
+
+Note:
+
+    Each test case will have at most 10000 calls to ping.
+    Each test case will call ping with strictly increasing values of t.
+    Each call to ping will have 1 <= t <= 10^9.
+* Solution
+#+begin_src python
+class RecentCounter:
+
+    def __init__(self):
+        self._size = 3000
+        self.count = 0
+        self.p = []
+
+
+    def ping(self, t: int) -> int:
+        self.p.append(t)
+        while self.p[0] < t - 3000:
+            self.p.pop(0)
+        return len(self.p)
+#+end_src
+
+#+begin_src rust
+use std::collections::VecDeque;
+struct RecentCounter {
+    v : Box<VecDeque<i32>>
+}
+
+
+/**
+ ,* `&self` means the method takes an immutable reference.
+ ,* If you need a mutable reference, change it to `&mut self` instead.
+ ,*/
+impl RecentCounter {
+
+    fn new() -> Self {
+        RecentCounter {
+            v : Box::new(VecDeque::new())
+        }
+    }
+
+    fn ping(&mut self, t: i32) -> i32 {
+        self.v.push_back(t);
+        while let Some(&i)=self.v.front() {
+            if i < t-3000 {
+                self.v.pop_front();
+            }else{
+                break;
+            }
+        }
+        self.v.len() as i32
+    }
+}
+#+end_src
