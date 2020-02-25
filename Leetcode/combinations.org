@@ -1,0 +1,32 @@
+* Description
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+Example:
+
+Input: n = 4, k = 2
+Output:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+* Solution
+#+begin_src python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        rv = []
+        temp = []
+        def _helper(beg):
+            if len(temp) == k:
+                rv.append(temp.copy())
+                return
+            for i in range(beg, n+1):
+                temp.append(i)
+                _helper(i+1)
+                temp.pop()
+        _helper(1)
+        return rv
+#+end_src
