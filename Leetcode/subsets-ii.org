@@ -22,7 +22,6 @@ class Solution:
         length = len(nums)
         def _helper(beg):
             rv.append(temp.copy())
-            i = beg
             for i in range(beg, length):
                 if i > beg and nums[i] == nums[i-1]:
                     continue
@@ -32,3 +31,5 @@ class Solution:
         _helper(0)
         return rv
 #+end_src
+
+
