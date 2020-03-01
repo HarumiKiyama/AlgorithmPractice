@@ -34,7 +34,7 @@ class Solution:
             if nums[beg] == nums[mid]:
                 beg += 1
                 if nums[0] > nums[beg]:
-                    beg, end = 0, beg
+                    return nums[beg]
                 continue
             if nums[beg] > nums[mid]:
                 end = mid
