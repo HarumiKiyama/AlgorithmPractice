@@ -1,0 +1,60 @@
+* Description
+Given an array of 4 digits, return the largest 24 hour time that can be made.
+
+The smallest 24 hour time is 00:00, and the largest is 23:59.  Starting from 00:00, a time is larger if more time has elapsed since midnight.
+
+Return the answer as a string of length 5.  If no valid time can be made, return an empty string.
+
+Example 1:
+
+Input: [1,2,3,4]
+Output: "23:41"
+
+Example 2:
+
+Input: [5,5,5,5]
+Output: ""
+
+Note:
+
+    A.length == 4
+    0 <= A[i] <= 9
+* Solution
+#+begin_src python
+class Solution:
+    def largestTimeFromDigits(self, A: List[int]) -> str:
+        rv = None
+        t = []
+        def get_hours_minutes(l):
+            return l[0] * 10 + l[1], l[2] * 10 + l[3]
+
+        def _helper(beg):
+            nonlocal rv
+            if beg >= 4:
+                h, m = get_hours_minutes(t)
+                if h >= 24 or m >= 60:
+                    return
+                if rv is None:
+                    rv = t.copy()
+                else:
+                    r_h, r_m = get_hours_minutes(rv)
+                    if r_h > h:
+                        return
+                    if r_h == h and r_m >= m:
+                        return
+                    rv = t.copy()
+                    return
+
+            for i in range(beg, 4):
+                t.append(A[i])
+                A[i], A[beg] = A[beg], A[i]
+                _helper(beg+1)
+                t.pop()
+                A[i], A[beg] = A[beg], A[i]
+        _helper(0)
+        if rv is None:
+            return ""
+        rv = [str(i) for i in rv]
+        rv.insert(2, ':')
+        return ''.join(rv)
+#+end_src
