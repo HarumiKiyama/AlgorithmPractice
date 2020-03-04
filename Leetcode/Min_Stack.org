@@ -39,3 +39,31 @@ minStack.getMin();   --> Returns -2.
     }
   };
 #+end_src
+
+#+begin_src python
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.s = []
+        self.m = []
+
+
+    def push(self, x: int) -> None:
+        self.s.append(x)
+        if len(self.m) == 0 or x <= self.m[-1]:
+            self.m.append(x)
+
+    def pop(self) -> None:
+        v = self.s.pop()
+        if v == self.m[-1]:
+            self.m.pop()
+
+    def top(self) -> int:
+        return self.s[-1]
+
+    def getMin(self) -> int:
+        return self.m[-1]
+#+end_src
