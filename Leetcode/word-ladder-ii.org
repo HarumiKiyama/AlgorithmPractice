@@ -1,0 +1,230 @@
+* Description
+Given two words (beginWord and endWord), and a dictionary's word list, find all shortest transformation sequence(s) from beginWord to endWord, such that:
+    Only one letter can be changed at a time
+    Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+Note:
+    Return an empty list if there is no such transformation sequence.
+    All words have the same length.
+    All words contain only lowercase alphabetic characters.
+    You may assume no duplicates in the word list.
+    You may assume beginWord and endWord are non-empty and are not the same.
+
+Example 1:
+
+Input:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+Output:
+[
+  ["hit","hot","dot","dog","cog"],
+  ["hit","hot","lot","log","cog"]
+]
+
+Example 2:
+
+Input:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+
+Output: []
+
+Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+* Solution
+** BFS
+#+begin_src python
+from collections import defaultdict
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList):
+        rv = []
+        ws = set(wordList)
+        length = len(ws)
+        if endWord not in ws:
+            return rv
+        q = {beginWord}
+        children = defaultdict(list)
+        found = False
+        path = [beginWord]
+        def getpaths(word):
+            if word == endWord:
+                rv.append(path.copy())
+                return
+            if word not in children:
+                return
+            for child in children[word]:
+                path.append(child)
+                getpaths(child)
+                path.pop()
+
+        while len(q) > 0 and not found:
+            for i in q:
+                ws.remove(i)
+            q_t = set()
+            for word in q:
+                cur = list(word)
+                for i in range(length):
+                    ch = cur[i]
+                    for j in range(26):
+                        cur[i] = chr(ord("a") + j)
+                        parent = word
+                        child = ''.join(cur)
+                        if child == endWord:
+                            found = True
+                            children[parent].append(child)
+                        elif child in ws and not found:
+                            q_t.add(child)
+                            children[parent].append(child)
+                    cur[i] = ch
+            q = q_t
+        if found:
+            path = [beginword]
+            getpaths(beginword)
+        return rv
+#+end_src
+** Bidirectional BFS
+#+begin_src cpp
+class Solution {
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        vector<vector<string>> ans;
+        unordered_set<string> dict(wordList.begin(), wordList.end());
+        if (!dict.count(endWord)) return ans;
+
+        int l = beginWord.length();
+
+        unordered_set<string> q1{beginWord};
+        unordered_set<string> q2{endWord};
+        unordered_map<string, vector<string>> children;
+
+        bool found = false;
+        bool backward = false;
+
+        while (!q1.empty() && !q2.empty() && !found) {
+            // Always expend the smaller queue first
+            if (q1.size() > q2.size()) {
+                std::swap(q1, q2);
+                backward = !backward;
+            }
+
+            for (const string& w : q1)
+                dict.erase(w);
+            for (const string& w : q2)
+                dict.erase(w);
+
+            unordered_set<string> q;
+
+            for (const string& word : q1) {
+                string curr = word;
+                for (int i = 0; i < l; i++) {
+                    char ch = curr[i];
+                    for (int j = 'a'; j <= 'z'; j++) {
+                        curr[i] = j;
+
+                        const string* parent = &word;
+                        const string* child = &curr;
+
+                        if (backward)
+                            std::swap(parent, child);
+
+                        if (q2.count(curr)) {
+                            found = true;
+                            children[*parent].push_back(*child);
+                        } else if (dict.count(curr) && !found) {
+                            q.insert(curr);
+                            children[*parent].push_back(*child);
+                        }
+                    }
+                    curr[i] = ch;
+                }
+            }
+
+            std::swap(q, q1);
+        }
+
+        if (found) {
+            vector<string> path{beginWord};
+            getPaths(beginWord, endWord, children, path, ans);
+        }
+
+        return ans;
+    }
+private:
+    void getPaths(const string& word,
+                  const string& endWord,
+                  const unordered_map<string, vector<string>>& children,
+                  vector<string>& path,
+                  vector<vector<string>>& ans) {
+        if (word == endWord) {
+            ans.push_back(path);
+            return;
+        }
+
+        const auto it = children.find(word);
+        if (it == children.cend()) return;
+
+        for (const string& child : it->second) {
+            path.push_back(child);
+            getPaths(child, endWord, children, path, ans);
+            path.pop_back();
+        }
+    }
+};
+#+end_src
+
+#+begin_src python
+from collections import defaultdict
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        rv = []
+        ws = set(wordList)
+        length = len(beginWord)
+        if endWord not in ws:
+            return rv
+        ws.remove(endWord)
+        q1 = {beginWord}
+        q2 = {endWord}
+        children = defaultdict(list)
+        found = False
+        backward = False
+        path = [beginWord]
+        def getpaths(word):
+            if word == endWord:
+                rv.append(path.copy())
+                return
+            if word not in children:
+                return
+            for child in children[word]:
+                path.append(child)
+                getpaths(child)
+                path.pop()
+
+        while len(q1) > 0 and len(q2) > 0 and not found:
+            for i in q1:
+                if i in ws:
+                    ws.remove(i)
+            qt =set()
+            if len(q1) > len(q2):
+                q2, q1 = q1, q2
+                backward = not backward
+            for word in q1:
+                for i in range(length):
+                    cur = list(word)
+                    for j in range(26):
+                        cur[i] = chr(ord("a") + j)
+                        parent = word
+                        child = ''.join(cur)
+                        if backward:
+                            parent, child = child, parent
+                        if ''.join(cur) in q2:
+                            found =True
+                            children[parent].append(child)
+                        elif ''.join(cur) in ws and not found:
+                            qt.add(''.join(cur))
+                            children[parent].append(child)
+            q1 = qt
+        if found:
+            getpaths(beginWord)
+        return rv
+#+end_src
