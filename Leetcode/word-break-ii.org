@@ -1,0 +1,72 @@
+* Description
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+
+Note:
+
+    The same word in the dictionary may be reused multiple times in the segmentation.
+    You may assume the dictionary does not contain duplicate words.
+
+Example 1:
+
+Input:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+Output:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+
+Example 2:
+
+Input:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+Output:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+Explanation: Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+
+Input:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output:
+[]
+* Solution
+#+begin_src python :results output
+from collections import defaultdict
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        if len(wordDict) == 0 or len(s) == 0:
+            return []
+        word_dict = set(wordDict)
+        max_length = max([len(i) for i in wordDict])
+        memoization = defaultdict(list)
+        rv = []
+        length = len(s)
+        def helper(beg):
+            if beg in memoization:
+                return
+            for i in range(beg + 1, beg + max_length + 1):
+                if i > length:
+                    break
+                s_t = s[beg:i]
+                if s_t in  word_dict:
+                    if i < length:
+                        helper(i)
+                        remain = memoization[i]
+                        for k in remain:
+                            memoization[beg].append("{} {}".format(s_t, k))
+                    else:
+                        memoization[beg].append(s_t)
+        helper(0)
+        return memoization[0]
+#+end_src
+
+#+RESULTS:
+: ['cat sand dog', 'cats and dog']
