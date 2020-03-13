@@ -48,3 +48,19 @@ Output: 2
       }
   }
 #+end_src
+
+boyer-moore algorithm
+#+begin_src python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        count = 0
+        c = None
+        for i in nums:
+            if count == 0:
+                c = i
+            elif c == i:
+                count += 1
+            else:
+                count -= 1
+        return c
+#+end_src
