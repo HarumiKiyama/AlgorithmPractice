@@ -1,0 +1,112 @@
+* Description
+Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
+
+    Only one letter can be changed at a time.
+    Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+
+Note:
+
+    Return 0 if there is no such transformation sequence.
+    All words have the same length.
+    All words contain only lowercase alphabetic characters.
+    You may assume no duplicates in the word list.
+    You may assume beginWord and endWord are non-empty and are not the same.
+
+Example 1:
+
+Input:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+Output: 5
+
+Explanation: As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+
+Example 2:
+
+Input:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+
+Output: 0
+
+Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+* Solution
+#+begin_src python :session solution
+from typing import List
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        ws = set(wordList)
+        if endWord not in ws:
+            return 0
+        if beginWord in ws:
+            ws.remove(beginWord)
+        length = len(beginWord)
+        rv = 1
+        words = {beginWord}
+        while True:
+            t = set()
+            for word in words:
+                for i in range(length):
+                    cur = list(word)
+                    for j in range(26):
+                        cur[i] = chr(ord('a') + j)
+                        word_t = ''.join(cur)
+                        if word_t == endWord:
+                            return rv + 1
+                        if ''.join(cur) in ws:
+                            t.add(''.join(cur))
+            if len(t) == 0:
+                return 0
+            ws = ws - t
+            words = t
+            rv += 1
+#+end_src
+
+#+begin_src python :session solution_new :results output
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
+        ws = set(wordList)
+        if endWord not in ws:
+            return 0
+        length = len(beginWord)
+        q1 = {beginWord}
+        rv = 1
+        q2 = {endWord}
+        while len(q1) > 0 and len(q2) > 0:
+            rv += 1
+            ws = ws - q1 - q2
+            q = set()
+            for word in q1:
+                for i in range(length):
+                    cur = list(word)
+                    for j in range(26):
+                        cur[i] = chr(ord("a") + j)
+                        child = "".join(cur)
+                        if child in q2:
+                            return rv
+                        elif child in ws:
+                            q.add(child)
+            q1 = q
+            if len(q1) > len(q2):
+                q1, q2 = q2, q1
+        return 0
+#+end_src
+
+#+RESULTS:
+
+#+begin_src python :session solution_new :results output
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+solution = Solution()
+
+print( solution.ladderLength(beginWord, endWord, wordList) )
+#+end_src
+
+#+RESULTS:
+: 5
