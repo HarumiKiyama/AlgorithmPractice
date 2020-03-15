@@ -62,3 +62,20 @@ Note: The length of each dimension in the given grid does not exceed 50.
 #+END_SRC
 
 #+RESULTS:
+
+#+begin_src python
+class Solution:
+    def maxAreaOfIsland(self, grid):
+        row = len(grid)
+        col = len(grid[0])
+        def helper(i,j):
+            if  0 <=i < row and 0 <= j < col and grid[i][j]:
+                grid[i][j] = 0
+                return 1 + helper(i+1,j) + helper(i-1,j) + helper(i, j-1) + helper(i, j+1)
+            return 0
+        rv = 0
+        for i in range(row):
+            for j in range(col):
+                rv = max(helper(i,j), rv)
+        return rv
+#+end_src
