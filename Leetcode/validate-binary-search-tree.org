@@ -48,14 +48,15 @@ class Solution:
             if l_max >= root.val or r_min <= root.val:
                 return False, None, None
             if root.left is None and root.right is None:
-                return True, min(root.val, l_min, r_min), max( root.val, l_max, r_max)
+                return True, min(root.val, l_min, r_min), max(root.val, l_max, r_max)
             if root.left is None and root.right.val >= root.val:
-                return True,  min(root.val, l_min, r_min), max( root.val, l_max, r_max)
+                return True, min(root.val, l_min, r_min), max(root.val, l_max, r_max)
             if root.right is None and root.left.val <= root.val:
-                return True,  min(root.val, l_min, r_min), max( root.val, l_max, r_max)
+                return True, min(root.val, l_min, r_min), max(root.val, l_max, r_max)
             if root.left.val <= root.val <= root.right.val:
-                return True,  min(root.val, l_min, r_min), max( root.val, l_max, r_max)
+                return True, min(root.val, l_min, r_min), max(root.val, l_max, r_max)
             return False, 2 ** 32, -(2 ** 32)
+
         rv, *_ = helper(root)
         return rv
 #+end_src
