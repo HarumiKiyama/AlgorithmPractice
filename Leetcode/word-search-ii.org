@@ -1,0 +1,65 @@
+* Description
+Given a 2D board and a list of words from the dictionary, find all words in the board.
+
+Each word must be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
+
+Example:
+
+Input:
+board = [
+  ['o','a','a','n'],
+  ['e','t','a','e'],
+  ['i','h','k','r'],
+  ['i','f','l','v']
+]
+words = ["oath","pea","eat","rain"]
+
+Output: ["eat","oath"]
+
+Note:
+
+    All inputs are consist of lowercase letters a-z.
+    The values of words are distinct.
+* Solution
+#+begin_src python
+class Solution:
+    def findWords(self, board, words):
+        if len(words) == 0:
+            return True
+        n = len(board)
+        if n == 0:
+            return False
+        m = len(board[0])
+        tries = {}
+        rv = set()
+        for word in words:
+            node = tries
+            for char in word:
+                node = node.setdefault(char, {})
+            node["#"] = True
+
+        def search(i, j, node, pre, visited):
+            if "#" in node:
+                rv.add(pre)
+            for (di, dj) in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                i1, j1 = i + di, j + dj
+                if (
+                    -1 < i1 < n
+                    and -1 < j1 < m
+                    and board[i1][j1] in node
+                    and (i1, j1) not in visited
+                ):
+                    search(
+                        i1,
+                        j1,
+                        node[board[i1][j1]],
+                        pre + board[i1][j1],
+                        visited | {(i1, j1)},
+                    )
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] in tries:
+                    search(i,j,trie[board[i][j]],board[i][j],{(i,j)})
+        return list(rv)
+
+#+end_src
