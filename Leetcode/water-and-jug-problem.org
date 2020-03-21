@@ -25,6 +25,10 @@ class Solution:
     def canMeasureWater(self, x: int, y: int, z: int) -> bool:
         if x > y:
             x, y = y,x
+        if x + y < z:
+            return False
+        if x == 0:
+            return z == y or z == 0
         if x == 0:
             return z == y
         return z % gcd(x,y) == 0
