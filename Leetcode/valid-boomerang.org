@@ -1,0 +1,36 @@
+* Description
+A boomerang is a set of 3 points that are all distinct and not in a straight line.
+
+Given a list of three points in the plane, return whether these points are a boomerang.
+
+Example 1:
+
+Input: [[1,1],[2,3],[3,2]]
+Output: true
+
+Example 2:
+
+Input: [[1,1],[2,2],[3,3]]
+Output: false
+
+Note:
+
+    points.length == 3
+    points[i].length == 2
+    0 <= points[i][j] <= 100
+* Solution
+#+begin_src python
+class Solution:
+    def isBoomerang(self, points: List[List[int]]) -> bool:
+        a, b, c = points
+        if (
+            (a[0] == b[0] and a[1] == b[1])
+            or (a[0] == c[0] and a[1] == c[1])
+            or (b[0] == c[0] and b[1] == c[1])
+        ):
+            return False
+
+        k_ab = a[1]- b[1] / a[0] - b[0] if a[0] -b[0] != 0 else None
+        k_ac = a[1]- c[1] / a[0] - c[0] if a[0] -c[0] != 0 else None
+        if a[0] - b[0] == 0 and
+#+end_src
