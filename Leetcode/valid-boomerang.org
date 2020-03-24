@@ -32,5 +32,7 @@ class Solution:
 
         k_ab = a[1]- b[1] / a[0] - b[0] if a[0] -b[0] != 0 else None
         k_ac = a[1]- c[1] / a[0] - c[0] if a[0] -c[0] != 0 else None
-        if a[0] - b[0] == 0 and
+        if k_ab == k_ac:
+            return False
+        return True
 #+end_src
