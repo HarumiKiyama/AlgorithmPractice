@@ -27,61 +27,60 @@ Note:
 #+begin_src cpp
 class Solution {
 public:
-    static constexpr int MAX_N = 100 + 5;
-    static constexpr int INF = int(1E6);
-    static constexpr int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+  static constexpr int MAX_N = 100 + 5;
+  static constexpr int INF = int(1E6);
+  static constexpr int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
 
-    int n;
-    int d[MAX_N][MAX_N];
+  int n;
+  int d[MAX_N][MAX_N];
 
-    struct Status {
-        int v, x, y;
-        bool operator < (const Status &rhs) const {
-            return v > rhs.v;
-        }
-    };
+  struct Status {
+    int v, x, y;
+  };
 
-    priority_queue <Status> q;
+  queue<Status> q;
 
-    int maxDistance(vector<vector<int>>& grid) {
-        this->n = grid.size();
-        auto &a = grid;
+  int maxDistance(vector<vector<int>> &grid) {
+    this->n = grid.size();
+    auto &a = grid;
 
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                d[i][j] = INF;
-            }
-        }
-
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (a[i][j]) {
-                    d[i][j] = 0;
-                    q.push({0, i, j});
-                }
-            }
-        }
-
-        while (!q.empty()) {
-            auto f = q.top(); q.pop();
-            for (int i = 0; i < 4; ++i) {
-                int nx = f.x + dx[i], ny = f.y + dy[i];
-                if (!(nx >= 0 && nx <= n - 1 && ny >= 0 && ny <= n - 1)) continue;
-                if (f.v + 1 < d[nx][ny]) {
-                    d[nx][ny] = f.v + 1;
-                    q.push({d[nx][ny], nx, ny});
-                }
-            }
-        }
-
-        int ans = -1;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (!a[i][j]) ans = max(ans, d[i][j]);
-            }
-        }
-
-        return (ans == INF) ? -1 : ans;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        d[i][j] = INF;
+      }
     }
+
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (a[i][j]) {
+          d[i][j] = 0;
+          q.push({0, i, j});
+        }
+      }
+    }
+
+    while (!q.empty()) {
+      auto f = q.front(); q.pop();
+      for (int i = 0; i < 4; ++i) {
+        int nx = f.x + dx[i], ny = f.y + dy[i];
+        if (!(nx >= 0 && nx <= n - 1 && ny >= 0 && ny <= n - 1))
+          continue;
+        if (f.v + 1 < d[nx][ny]) {
+          d[nx][ny] = f.v + 1;
+          q.push({d[nx][ny], nx, ny});
+        }
+      }
+    }
+
+    int ans = -1;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (!a[i][j])
+          ans = max(ans, d[i][j]);
+      }
+    }
+
+    return (ans == INF) ? -1 : ans;
+  }
 };
 #+end_src
