@@ -54,5 +54,3 @@ public:
 };
 #+end_src
 
-#+begin_src rust
-#+end_src
