@@ -44,3 +44,24 @@ public:
     }
 };
 #+end_src
+
+#+begin_src rust
+use std::collections::HashMap;
+use std::collections::HashSet;
+impl Solution {
+    pub fn unique_occurrences(arr: Vec<i32>) -> bool {
+        let mut d = HashMap::<i32,usize>::new();
+        let mut s = HashSet::<usize>::new();
+        for i in &arr{
+            match d.get(i) {
+                Some(v) => d.insert(*i, v+1),
+                None => d.insert(*i,1)
+            };
+        }
+        for (_, &i) in d.iter() {
+            s.insert(i);
+        }
+        d.len() == s.len()
+    }
+}
+#+end_src
