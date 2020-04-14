@@ -1,0 +1,72 @@
+* Description
+You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Follow up:
+What if you cannot modify the input lists? In other words, reversing the lists is not allowed.
+
+Example:
+
+Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 8 -> 0 -> 7
+* Solution
+#+begin_src python :results output :session test
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        stack1, stack2 = [], []
+        cur = l1
+        while cur is not None:
+            stack1.append(cur)
+            cur = cur.next
+
+        cur = l2
+        while cur is not None:
+            stack2.append(cur)
+            cur = cur.next
+        if len(stack1) < len(stack2):
+            stack1, stack2 = stack2, stack1
+        carry = 0
+        rv_stack = []
+        while len(stack1) > 0 or carry > 0:
+            a = stack1.pop() if len(stack1) > 0 else ListNode(0)
+            b = stack2.pop() if len(stack2) > 0 else ListNode(0)
+            v = carry + a.val + b.val
+            remain = v % 10
+            carry = v // 10
+            rv_stack.append(ListNode(remain))
+
+        rv = cur = rv_stack.pop()
+        while len(rv_stack) > 0:
+            cur.next = rv_stack.pop()
+            cur = cur.next
+        return rv
+
+solution = Solution()
+l1 = ListNode(7)  # 7243
+cur = l1
+for i in (2, 4, 3):
+    t = ListNode(i)
+    cur.next = t
+    cur = t
+l2 = ListNode(5)  # 564
+cur = l2
+for i in (6, 4):
+    t = ListNode(i)
+    cur.next = t
+    cur = t
+rv = solution.addTwoNumbers(l1, l2)
+while rv is not None:
+    print(rv.val)
+    rv = rv.next
+#+end_src
+
+#+RESULTS:
+: 7
+: 7
