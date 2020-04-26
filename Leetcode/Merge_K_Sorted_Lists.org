@@ -10,35 +10,37 @@ Input:
 Output: 1->1->2->3->4->4->5->6
 * Solution
 #+begin_src python
-  # Definition for singly-linked list.
-  # class ListNode:
-  #     def __init__(self, x):
-  #         self.val = x
-  #         self.next = None
-
-  class Solution:
-      def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-          head = ListNode(None)
-          t = head
-          length = len(lists)
-          none_index = -1
-          for i in range(length):
-              if lists[i] is None:
-                  none_index += 1
-                  lists[none_index], lists[i] = lists[i], lists[none_index]
-
-          while none_index < length-1:
-              min_i = none_index + 1
-              min_v = lists[min_i].val
-              for i in range(none_index+2, len(lists)):
-                  if min_v > lists[i].val:
-                      min_v = lists[i].val
-                      min_i = i
-              t.next = lists[min_i]
-              t = lists[min_i]
-              lists[min_i] = lists[min_i].next
-              if lists[min_i] is None:
-                  none_index += 1
-                  lists[none_index], lists[min_i] = lists[min_i], lists[none_index]
-          return head.next
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+from heapq import heappush, heappop
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        ListNode.__lt__ = lambda self, other: self.val < other.val
+        def _helper(t1, t2, rv):
+            if t1 is None:
+                rv.next = t2
+                return
+            if t2 is None:
+                rv.next = t1
+                return
+            if t1 > t2:
+                t1, t2 = t2, t1
+            rv.next = t1
+            return _helper(t1.next, t2, rv.next)
+        dummy = ListNode(None)
+        if len(lists) == 0:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        if len(lists) == 2:
+            _helper(lists[0],lists[1], dummy)
+            return dummy.next
+        n = len(lists)
+        t1 = self.mergeKLists(lists[:n//2])
+        t2 = self.mergeKLists(lists[n//2:])
+        _helper(t1,t2, dummy)
+        return dummy.next
 #+end_src
