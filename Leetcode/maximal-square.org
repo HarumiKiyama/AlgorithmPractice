@@ -1,0 +1,41 @@
+* Description
+Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
+
+Example:
+Input:
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+
+Output: 4
+* Solution
+#+begin_src python
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        rv = 0
+        n = len(matrix)
+        if n == 0:
+            return rv
+        m = len(matrix[0])
+
+        def _helper(i, j, t):
+            if t == 0:
+                return True
+            if i + t >= n or j + t >= m:
+                return False
+            for offset in range(t+1):
+                if matrix[i+offset][j+t] == "0" or matrix[i+t][j+offset] == "0":
+                    return False
+            return True
+
+        for i in range(n):
+            for j in range(m):
+                if matrix[i][j] == "0":
+                    continue
+                t = 0
+                while _helper(i,j,t):
+                    t += 1
+                rv = max(rv, t ** 2)
+        return rv
+#+end_src
