@@ -6,3 +6,4 @@
 .stack-work/
 *.cabal
 __pycache__/
+.idea/

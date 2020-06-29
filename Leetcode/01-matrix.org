@@ -31,39 +31,47 @@ Note:
     The cells are adjacent in only four directions: up, down, left and right.
 * Solution
 #+begin_src python :session test :results output
-from typing import List
-class Solution:
-    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
-        n = len(matrix)
-        m = len(matrix[0])
-        rv = [[None] * m for _ in range(n)]
-        points = set()
-        for i in range(n):
-            for j in range(m):
-                if matrix[i][j] == 0:
-                    points.add((i, j))
-        offsets = ((0, 1), (0, -1), (1, 0), (-1, 0))
-        count = 0
-        while len(points) > 0:
-            temp = set()
-            while len(points) > 0:
-                i, j = points.pop()
-                if rv[i][j] is not None:
-                    continue
-                rv[i][j] = count
-                for a, b in offsets:
-                    if 0 <= i + a < n and 0 <= j + b < m:
-                        if rv[i+a][j+b] is None:
-                            temp.add((i+a, j+b))
-            count += 1
-            points = temp
-        return rv
+  from typing import List
+  class Solution:
+      def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+	  n = len(matrix)
+	  m = len(matrix[0])
+	  rv = [[None] * m for _ in range(n)]
+	  points = set()
+	  for i in range(n):
+	      for j in range(m):
+		  if matrix[i][j] == 0:
+		      points.add((i, j))
+	  offsets = ((0, 1), (0, -1), (1, 0), (-1, 0))
+	  count = 0
+	  while len(points) > 0:
+	      temp = set()
+	      while len(points) > 0:
+		  i, j = points.pop()
+		  if rv[i][j] is not None:
+		      continue
+		  rv[i][j] = count
+		  for a, b in offsets:
+		      if 0 <= i + a < n and 0 <= j + b < m:
+			  if rv[i+a][j+b] is None:
+			      temp.add((i+a, j+b))
+	      count += 1
+	      points = temp
+	  return rv
 
 
-matrix = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
-solution = Solution()
-assert solution.updateMatrix(matrix) == [[0, 0, 0], [0, 1, 0], [1, 2, 1]]
+  matrix = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
+  solution = Solution()
+  assert solution.updateMatrix(matrix) == [[0, 0, 0], [0, 1, 0], [1, 2, 1]]
 #+end_src
 
 #+RESULTS:
-: [[0, 0, 0], [0, 1, 0], [1, 2, 1]]
+: Python 2.7.17 (default, Apr 15 2020, 17:20:14) 
+: [GCC 7.5.0] on linux2
+: Type "help", "copyright", "credits" or "license" for more information.
+: Traceback (most recent call last):
+:   File "<stdin>", line 1, in <module>
+:   File "/tmp/babel-wbgdsD/python-pu4u74", line 3
+:     def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+:                                  ^
+: SyntaxError: invalid syntax
